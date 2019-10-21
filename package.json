@@ -1,0 +1,25 @@
+{
+  "name": "file-clipper",
+  "version": "1.0.0",
+  "description": "This package enable you to encrypt or decrypt a file or folder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonsor/file-clipper.git"
+  },
+  "keywords": [
+    "File",
+    "Clipper",
+    "Crypt",
+    "Decrypt"
+  ],
+  "author": "Wasif Farooq",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sonsor/file-clipper/issues"
+  },
+  "homepage": "https://github.com/sonsor/file-clipper#readme"
+}
