@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "sfc": "node src/index.js"
+    "file-clipper": "./src/index.js"
   },
   "repository": {
     "type": "git",

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const program = require('commander');
 const encrypt = require('./encrypt');
 const decrypt = require('./decrypt');
@@ -6,6 +7,7 @@ const paths = require('path');
 
 
 program
+    .version('1.0.0')
     .option('-m, --mode <mode>', 'encrypt/decrypt the filea or folders', '')
     .option('-p, --path <path>', 'path of a file or directory', '')
     .option('-s, --secret <secret>', 'secrect or salt to handle encryption', '')
