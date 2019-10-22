@@ -1,13 +1,20 @@
 const encrypt = require('./src/encrypt');
 const decrypt = require('./src/decrypt');
+const getFiles = require('./src/tiverse');
+const path = require('path');
 
 const [ mode, file, secret ] = process.argv.slice(2);
 
-console.log(mode, file, secret);
+const files = getFiles(path.resolve(file));
+
 if (mode === 'encrypt') {
-    encrypt({ file, secret });
+    files.map((file) => {
+        encrypt({ file, secret });
+    })
 }
 
 if (mode === 'decrypt') {
-    decrypt({ file, secret });
+    files.map((file) => {
+        decrypt({ file, secret });
+    });
 }
