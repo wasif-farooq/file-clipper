@@ -4,7 +4,7 @@
   "description": "This package enable you to encrypt or decrypt a file or folder",
   "main": "src/index.js",
   "scripts": {
-    "build": "node ./node_modules/webpack/bin/webpack.js --config webpack/webpack.config.js",
+    "build": "node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js"
   },
   "bin": {
     "file-clipper": "./src/index.js"
@@ -29,6 +29,8 @@
     "commander": "^3.0.2"
   },
   "devDependencies": {
-    "webpack": "^4.41.2"
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-node-externals": "^1.7.2"
   }
 }
