@@ -4,10 +4,14 @@
   "description": "This package enable you to encrypt or decrypt a file or folder",
   "main": "src/index.js",
   "scripts": {
+    "start": "node ./dist/file-clipper.js",
     "build": "node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js"
   },
+  "files": [
+    "dist"
+  ],
   "bin": {
-    "file-clipper": "./src/index.js"
+    "file-clipper": "./dist/file-clipper.js"
   },
   "repository": {
     "type": "git",
