@@ -4,7 +4,7 @@ This package enables you to encrypt or decrypt files or folder with provided sec
 ## How To Install
 To install run bwlow command
 ```bash
-npm install file-clipper
+npm install -g file-clipper
 ```
 
 ## How To User
