@@ -3,10 +3,10 @@ const encrypt = require('./encrypt');
 const decrypt = require('./decrypt');
 const getFiles = require('./tiverse');
 const paths = require('path');
-
+const { version } = require('../package.json');
 
 program
-    .version('1.0.0')
+    .version(version)
     .option('-m, --mode <mode>', 'encrypt/decrypt the filea or folders', '')
     .option('-p, --path <path>', 'path of a file or directory', '')
     .option('-s, --secret <secret>', 'secrect or salt to handle encryption', '')
@@ -28,3 +28,4 @@ if (mode === 'decrypt') {
         decrypt({ file, secret });
     });
 }
+;

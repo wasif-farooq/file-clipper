@@ -7,6 +7,14 @@ function tiverse(link) {
         return [];
     }
 
+    if (!fs.existsSync(link)) {
+        throw new Error('Path not exists : ', link);
+    }
+
+    if (!await fs.access(link, W_OK)) {
+        throw new Error('Please allow write permissions to this path : ', link);
+    }
+
     let stat = fs.statSync(link);
     if (stat.isDirectory()) {
         let files = fs.readdirSync(link);
