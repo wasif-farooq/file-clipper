@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./dist/file-clipper.js",
     "dev": "node ./src/index.js",
-    "build": "node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js"
+    "build": "node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js",
+    "test": "mocha"
   },
   "files": [
     "dist"
@@ -31,7 +32,10 @@
   },
   "homepage": "https://github.com/sonsor/file-clipper#readme",
   "dependencies": {
-    "commander": "^3.0.2"
+    "chai": "^4.2.0",
+    "commander": "^3.0.2",
+    "mocha": "^6.2.2",
+    "sinon": "^7.5.0"
   },
   "devDependencies": {
     "webpack": "^4.41.2",
