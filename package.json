@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node ./dist/file-clipper.js",
     "dev": "node ./src/index.js",
-    "build": "node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js",
-    "test": "mocha"
+    "build": "npm test && node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js",
+    "test": "mocha",
+    "pre:commit": "npm test --silent"
   },
   "files": [
     "dist"
@@ -45,8 +46,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm test",
-      "...": "..."
+      "pre-push": "npm run pre:commit"
     }
   }
 }

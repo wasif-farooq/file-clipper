@@ -1,19 +1,34 @@
 const path = require('path');
 const fs = require('fs');
 
+function checkPermission(path) {
+    try {
+        fs.accessSync(path, fs.constants.W_OK);
+    } catch (e) {
+        console.log('Please allow write permissions to this path : ', path);
+        process.exit();
+    }
+}
+
 function tiverse(link) {
     let list = [];
-    if (!link) {
-        return [];
-    }
+    return new Promise((resolve, reject) => {
+        if (!link) {
+            reject('the path is empty');
+        }
+
+        if (!await fs.exists(link)) {
+            reject('Path not exists :', link)
+        }
+
+
+    });
 
     if (!fs.existsSync(link)) {
         throw new Error('Path not exists : ', link);
     }
 
-    if (!await fs.access(link, W_OK)) {
-        throw new Error('Please allow write permissions to this path : ', link);
-    }
+    checkPermission(link);
 
     let stat = fs.statSync(link);
     if (stat.isDirectory()) {
@@ -24,6 +39,7 @@ function tiverse(link) {
             if (stat.isDirectory()) {
                 list = list.concat(tiverse(file));
             } else {
+                checkPermission(file);
                 list.push(path.resolve(file));
             }
         })

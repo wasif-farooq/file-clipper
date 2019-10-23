@@ -16,7 +16,6 @@ program
 const { mode, path, secret } = program.opts();
 const files = getFiles(paths.resolve(path));
 
-
 if (mode === 'encrypt') {
     files.map((file) => {
         encrypt({ file, secret });
