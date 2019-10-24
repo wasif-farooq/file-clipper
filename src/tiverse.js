@@ -10,7 +10,7 @@ function checkPermission(path) {
     }
 }
 
-function tiverse(link) {
+async function tiverse(link) {
     let list = [];
     return new Promise((resolve, reject) => {
         if (!link) {
@@ -18,7 +18,7 @@ function tiverse(link) {
         }
 
         if (!await fs.exists(link)) {
-            reject('Path not exists :', link)
+            reject('Path not exists :', link);
         }
 
 
