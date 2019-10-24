@@ -3,3 +3,4 @@ node_modules
 test.*
 example
 package-lock.json
+coverage
