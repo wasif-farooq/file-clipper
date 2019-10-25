@@ -4,21 +4,40 @@ const getFiles = require('./tiverse');
 const resolve = require('path').resolve;
 const command = require('./command');
 
+
+/**
+ * 
+ */
 class Clipper {
+
+    /**
+     * 
+     */
     constructor() {
         this.action = false;
         this.path = null;
         this.secret = null;
     }
 
+    /**
+     * 
+     */
     async getFiles() {
         return await getFiles(await this.resolve(this.path))
     }
 
+    /**
+     * 
+     * @param {*} path 
+     */
     async resolve(path) {
         return resolve(path);
     }
 
+    /**
+     * 
+     * @param {*} param0 
+     */
     static start({ mode, path, secret }) {
         let instance = new this;
         instance.path = path;
@@ -38,6 +57,9 @@ class Clipper {
         instance.run();
     }
 
+    /**
+     * 
+     */
     run() {
         const { secret, action } = this;
         
@@ -46,8 +68,8 @@ class Clipper {
         }
 
         return this.getFiles()
-            //.then((files) => files.map((file) => action({ file, secrect })))
-            .then((files) => console.log("indexed : ", files))
+            .then((files) => Promise.all(files.map((file) => this.action({ file, secret }))))
+            .then((data) => console.log("data :", data))
             .catch((data) => console.log("data : ", data));
     }
 }

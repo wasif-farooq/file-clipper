@@ -1,7 +1,17 @@
 const path = require('path');
 const fs = require('fs');
 
+/**
+ * 
+ */
 class Tiverse {
+    
+    /**
+     * 
+     * @param {*} link 
+     * @param {*} resolve 
+     * @param {*} reject 
+     */
     constructor(link, resolve, reject) {
         this.link = link;
         this.resolve = resolve;
@@ -11,10 +21,17 @@ class Tiverse {
         this.start();
     }
 
+    /**
+     * 
+     */
     start() {
         fs.access(this.link, fs.constants.W_OK, this.stats.bind(this));
     }
 
+    /**
+     * 
+     * @param {*} err 
+     */
     stats(err) {
         if (err) {
             this.reject(err);
@@ -23,6 +40,11 @@ class Tiverse {
         fs.stat(this.link, this.read.bind(this));
     }
 
+    /**
+     * 
+     * @param {*} err 
+     * @param {*} data 
+     */
     read(err, data) {
 
         if (err) {
@@ -37,6 +59,11 @@ class Tiverse {
         }
     }
 
+    /**
+     * 
+     * @param {*} err 
+     * @param {*} files 
+     */
     iterate(err, files) {
 
         if (err) {
@@ -54,6 +81,10 @@ class Tiverse {
         .catch(this.reject);
     }
 
+    /**
+     * 
+     * @param {*} data 
+     */
     reduce(data) {
         let list = [];
         data.forEach((item) => {
@@ -66,6 +97,10 @@ class Tiverse {
         return list;
     }
 
+    /**
+     * 
+     * @param {*} link 
+     */
     static async getFiles(link) {
         let list = [];
         return new Promise((resolve, reject) => {
