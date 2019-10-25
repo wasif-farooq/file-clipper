@@ -1,53 +1,77 @@
 const path = require('path');
 const fs = require('fs');
 
-function checkPermission(path) {
-    try {
-        fs.accessSync(path, fs.constants.W_OK);
-    } catch (e) {
-        console.log('Please allow write permissions to this path : ', path);
-        process.exit();
-    }
-}
+class Tiverse {
+    constructor(link, resolve, reject) {
+        this.link = link;
+        this.resolve = resolve;
+        this.reject = reject;
+        this.list = [];
 
-async function tiverse(link) {
-    let list = [];
-    return new Promise((resolve, reject) => {
-        if (!link) {
-            reject('the path is empty');
-        }
-
-        if (!await fs.exists(link)) {
-            reject('Path not exists :', link);
-        }
-
-
-    });
-
-    if (!fs.existsSync(link)) {
-        throw new Error('Path not exists : ', link);
+        this.start();
     }
 
-    checkPermission(link);
+    start() {
+        fs.access(this.link, fs.constants.W_OK, this.stats.bind(this));
+    }
 
-    let stat = fs.statSync(link);
-    if (stat.isDirectory()) {
-        let files = fs.readdirSync(link);
-        files.forEach((file) => {
-            file = path.join(link,  file);
-            let stat = fs.statSync(file);
-            if (stat.isDirectory()) {
-                list = list.concat(tiverse(file));
+    stats(err) {
+        if (err) {
+            this.reject(err);
+        }
+
+        fs.stat(this.link, this.read.bind(this));
+    }
+
+    read(err, data) {
+
+        if (err) {
+            this.reject(err);
+            return;
+        }
+
+        if (data.isDirectory()) {
+            fs.readdir(this.link, this.iterate.bind(this));
+        } else {
+            this.resolve(this.link);
+        }
+    }
+
+    iterate(err, files) {
+
+        if (err) {
+            this.reject(err);
+            return;
+        }
+
+        Promise.all(
+            files.map((file) => {
+                file = path.join(this.link, file);
+                return Tiverse.getFiles(file);    
+            })
+        )
+        .then((data) => this.resolve(this.reduce(data)))
+        .catch(this.reject);
+    }
+
+    reduce(data) {
+        let list = [];
+        data.forEach((item) => {
+            if (Array.isArray(item)) {
+                list = list.concat(this.reduce(item));
             } else {
-                checkPermission(file);
-                list.push(path.resolve(file));
+                list.push(item);
             }
-        })
-    } else {
-        list.push(path.resolve(link));
+        });
+        return list;
     }
 
-    return list;
+    static async getFiles(link) {
+        let list = [];
+        return new Promise((resolve, reject) => {
+            new Tiverse(link, resolve, reject);
+        })
+    }
 }
 
-module.exports = tiverse;
+module.exports = Tiverse.getFiles;

@@ -8,10 +8,10 @@ class Clipper {
     constructor() {
         this.action = false;
         this.path = null;
-        this.secrect = null;
+        this.secret = null;
     }
 
-    asycn getFiles() {
+    async getFiles() {
         return await getFiles(await this.resolve(this.path))
     }
 
@@ -20,24 +20,35 @@ class Clipper {
     }
 
     static start({ mode, path, secret }) {
-        this.path = path;
-        this.secret = secret;
+        let instance = new this;
+        instance.path = path;
+        instance.secret = secret;
 
-        this.action = mode === 'encrypt' ? encrypt: false;
-        this.action = mode === 'decrypt' ? decrypt: false;
-        this.run();
+        switch (mode) {
+            case 'encrypt':
+                instance.action = encrypt;
+            break;
+            case 'decrypt':
+                instance.action = decrypt;
+            break;
+            default:
+                instance.action = false;
+        }
+        
+        instance.run();
     }
 
     run() {
-        const { secrect, action } = this;
-
+        const { secret, action } = this;
+        
         if (!action) {
             return false;
         }
 
         return this.getFiles()
-            .then((files) => files.map((file) => action({ file, secrect })))
-            .catch(console.log);
+            //.then((files) => files.map((file) => action({ file, secrect })))
+            .then((files) => console.log("indexed : ", files))
+            .catch((data) => console.log("data : ", data));
     }
 }
 
