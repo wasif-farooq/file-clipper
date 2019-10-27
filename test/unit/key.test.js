@@ -1,5 +1,5 @@
 const expect  = require('chai').expect;
-const getCipherKey = require('../src/key');
+const getCipherKey = require('../../src/key');
 const crypto = require('crypto');
 
 describe('Encryption and Decryption key', function() {

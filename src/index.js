@@ -1,17 +1,17 @@
 const encrypt = require('./encrypt');
 const decrypt = require('./decrypt');
-const getFiles = require('./tiverse');
+const { getFiles } = require('./tiverse');
 const resolve = require('path').resolve;
 const command = require('./command');
 
 
 /**
- * 
+ *
  */
 class Clipper {
 
     /**
-     * 
+     *
      */
     constructor() {
         this.action = false;
@@ -20,23 +20,23 @@ class Clipper {
     }
 
     /**
-     * 
+     *
      */
     async getFiles() {
         return await getFiles(await this.resolve(this.path))
     }
 
     /**
-     * 
-     * @param {*} path 
+     *
+     * @param {*} path
      */
     async resolve(path) {
         return resolve(path);
     }
 
     /**
-     * 
-     * @param {*} param0 
+     *
+     * @param {*} param0
      */
     static start({ mode, path, secret }) {
         let instance = new this;
@@ -53,16 +53,16 @@ class Clipper {
             default:
                 instance.action = false;
         }
-        
+
         instance.run();
     }
 
     /**
-     * 
+     *
      */
     run() {
         const { secret, action } = this;
-        
+
         if (!action) {
             return false;
         }

@@ -2,48 +2,47 @@ const path = require('path');
 const fs = require('fs');
 
 /**
- * 
+ *
  */
 class Tiverse {
-    
+
     /**
-     * 
-     * @param {*} link 
-     * @param {*} resolve 
-     * @param {*} reject 
+     *
+     * @param {*} link
+     * @param {*} resolve
+     * @param {*} reject
      */
     constructor(link, resolve, reject) {
         this.link = link;
         this.resolve = resolve;
         this.reject = reject;
         this.list = [];
-
-        this.start();
     }
 
     /**
-     * 
+     *
      */
     start() {
         fs.access(this.link, fs.constants.W_OK, this.stats.bind(this));
     }
 
     /**
-     * 
-     * @param {*} err 
+     *
+     * @param {*} err
      */
     stats(err) {
         if (err) {
             this.reject(err);
+            return err;
         }
 
         fs.stat(this.link, this.read.bind(this));
     }
 
     /**
-     * 
-     * @param {*} err 
-     * @param {*} data 
+     *
+     * @param {*} err
+     * @param {*} data
      */
     read(err, data) {
 
@@ -55,14 +54,14 @@ class Tiverse {
         if (data.isDirectory()) {
             fs.readdir(this.link, this.iterate.bind(this));
         } else {
-            this.resolve(this.link);
+            this.resolve([this.link]);
         }
     }
 
     /**
-     * 
-     * @param {*} err 
-     * @param {*} files 
+     *
+     * @param {*} err
+     * @param {*} files
      */
     iterate(err, files) {
 
@@ -74,7 +73,7 @@ class Tiverse {
         Promise.all(
             files.map((file) => {
                 file = path.join(this.link, file);
-                return Tiverse.getFiles(file);    
+                return Tiverse.getFiles(file);
             })
         )
         .then((data) => this.resolve(this.reduce(data)))
@@ -82,8 +81,8 @@ class Tiverse {
     }
 
     /**
-     * 
-     * @param {*} data 
+     *
+     * @param {*} data
      */
     reduce(data) {
         let list = [];
@@ -98,15 +97,16 @@ class Tiverse {
     }
 
     /**
-     * 
-     * @param {*} link 
+     *
+     * @param {*} link
      */
     static async getFiles(link) {
         let list = [];
         return new Promise((resolve, reject) => {
-            new Tiverse(link, resolve, reject);
+            let instance = new Tiverse(link, resolve, reject);
+            instance.start();
         })
     }
 }
 
-module.exports = Tiverse.getFiles;
+module.exports = Tiverse;
