@@ -101,7 +101,6 @@ class Tiverse {
      * @param {*} link
      */
     static async getFiles(link) {
-        let list = [];
         return new Promise((resolve, reject) => {
             let instance = new Tiverse(link, resolve, reject);
             instance.start();

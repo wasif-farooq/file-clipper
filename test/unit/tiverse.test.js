@@ -3,6 +3,7 @@ const sinon = require('sinon');
 const { stub, fake, spy } = sinon;
 const Tiverse = require('../../src/tiverse');
 const fs = require('fs');
+const path = require('path');
 
 describe('#Tiverse', function() {
 
@@ -78,5 +79,75 @@ describe('#Tiverse', function() {
             expect(fs.readdir.called);
             expect(resolve.called);
         });
+    });
+
+    describe('#iterate', function() {
+
+        let pres = null;
+        let prej = null;
+
+        beforeEach(() => {
+
+            let promise = new Promise((res, rej) => {
+                pres = res;
+                prej = rej;
+            });
+
+            instance.reduce = stub().returns(['path/to/file']);
+            stub(Tiverse, 'getFiles').returns(promise);
+        })
+
+        it('should call reject method', function () {
+            instance.iterate(new Error('premission denied'), null);
+            expect(reject.called);
+        });
+
+        it('should call resolve method', function () {
+            instance.iterate(null, ['path/to/files']);
+            pres(['path/to/file']);
+            expect(resolve.called);
+        });
+
+        it('should call reject of catch block', function () {
+            instance.iterate(null, ['path/to/files']);
+            reject('got error');
+            expect(reject.called);
+        });
+
+        afterEach(() => {
+            Tiverse.getFiles.restore();
+        })
+    });
+
+    describe('#reduce', function() {
+
+        it('should return array', function () {
+            let data = [
+                'path/to/file1',
+                [
+                    'path/to/file2',
+                    'path/to/file3'
+                ]
+            ];
+
+            let list = instance.reduce(data);
+            expect(list).to.have.members([
+                'path/to/file1',
+                'path/to/file2',
+                'path/to/file3'
+            ]);
+        });
+    });
+
+    describe('#getFiles', function() {
+
+        it('should return a promise', function () {
+
+            let instance = Tiverse.getFiles('path/to/file');
+            instance.then((files) => {
+                expect(files).to.have.members(['path/to/file']);
+            });
+        });
+
     })
 });

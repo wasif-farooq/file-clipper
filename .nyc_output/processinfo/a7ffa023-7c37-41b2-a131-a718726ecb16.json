@@ -1,0 +1,1 @@
+{"uuid":"a7ffa023-7c37-41b2-a131-a718726ecb16","parent":null,"pid":22072,"argv":["/usr/bin/node","/usr/bin/npm","test"],"execArgv":[],"cwd":"/home/wasif/projects/file-cliper","time":1572162423509,"ppid":22065,"root":"d483f0ab-61bc-475b-a49c-ca5054ddab8e","coverageFilename":"/home/wasif/projects/file-cliper/.nyc_output/a7ffa023-7c37-41b2-a131-a718726ecb16.json","files":[]}

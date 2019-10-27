@@ -2,18 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c8979a4-74f3-4c7c-9cba-4a3fb8b1d022" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.nyc_output/7b780318-1ad5-4c24-8dfc-ebb9e536e439.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.nyc_output/processinfo/7b780318-1ad5-4c24-8dfc-ebb9e536e439.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nyc_output/94e8f344-151a-49a7-ba1e-bdfe5e0b1048.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nyc_output/ac4a53a7-c461-4680-b004-4dd0d1dc9040.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nyc_output/processinfo/94e8f344-151a-49a7-ba1e-bdfe5e0b1048.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nyc_output/processinfo/ac4a53a7-c461-4680-b004-4dd0d1dc9040.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.nyc_output/processinfo/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/.nyc_output/processinfo/index.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tiverse.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/tiverse.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/test/.eslintrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/bootstrap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/keys.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/mocha.opts" beforeDir="false" afterPath="$PROJECT_DIR$/test/mocha.opts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/tiverse.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/tiverse.test.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/tiverse.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1134">
-              <caret line="18" column="23" lean-forward="true" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+            <state relative-caret-position="-227">
+              <caret line="65" column="11" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -62,8 +57,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/unit/tiverse.test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="72" column="18" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="18" />
+            <state relative-caret-position="180">
+              <caret line="106" column="13" selection-start-line="106" selection-start-column="13" selection-end-line="106" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -107,8 +102,13 @@
       <find>test</find>
       <find>file-clipper.js</find>
       <find>produc</find>
-      <find>getFiles</find>
       <find>.read</find>
+      <find>path</find>
+      <find>getFiles</find>
+      <find>console</find>
+      <find>console.log</find>
+      <find>getFile</find>
+      <find>iterate</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,12 +180,12 @@
       <workItem from="1571839051792" duration="4579000" />
       <workItem from="1571850506830" duration="8000" />
       <workItem from="1572026282026" duration="3120000" />
-      <workItem from="1572062561993" duration="9795000" />
+      <workItem from="1572062561993" duration="16706000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32890000" />
+    <option name="totallyTimeSpent" value="39801000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-37" width="1368" height="805" extended-state="6" />
@@ -308,15 +308,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tiverse.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1134">
-          <caret line="18" column="23" lean-forward="true" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+        <state relative-caret-position="-227">
+          <caret line="65" column="11" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/tiverse.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="72" column="18" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="18" />
+        <state relative-caret-position="180">
+          <caret line="106" column="13" selection-start-line="106" selection-start-column="13" selection-end-line="106" selection-end-column="13" />
         </state>
       </provider>
     </entry>
