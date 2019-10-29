@@ -35,28 +35,37 @@ describe('#Encrypt', function() {
     afterEach(() => {
         mock.restore();
     })
+    
 
-    it('should return promise and call resolve', function() {
-        stub(fs, 'rename').yields(null);
+    it('should return promise and call resolve', function(done) {
+
+
+        fs.rename = stub().callsArgWithAsync(
+            2, null
+          );
+
         let file = encrypt({ file: '/file.txt', secret: 'mypassweord'});
         file.then((data) => {
-            //console.log("data : ", data);
             expect(data).to.equal(true);
+            done();
         }).catch((err) => {
             console.log("errr1 :L ", err);
         });
-        fs.rename.restore();
     });
 
-    it('should return promise and call reject', function() {
-        stub(fs, 'rename').yields(new Error('Permissions denied'));
+    it('should return promise and call reject', function(done) {
+
+        fs.rename = stub().callsArgWithAsync(
+            2, 'premission error'
+          );
+
         let file = encrypt({ file: '/not-prem-file.txt', secret: 'mypassweord'});
         file.then((data) => {
             //expect(data).to.equal(true);
         }).catch((err) => {
             expect(err).to.not.be.null;
+            done()
         });
-        fs.rename.restore();
     });
 
 });
