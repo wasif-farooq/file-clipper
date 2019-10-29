@@ -37,6 +37,7 @@ async function encrypt({ file, secret }) {
             fs.rename(file + '.enc', file, (err) => {
                 if (err) {
                     reject(err);
+                    return;
                 }
 
                 resolve(true);
