@@ -12,50 +12,58 @@ class Tiverse {
      * @param {*} resolve
      * @param {*} reject
      */
-    constructor(link, resolve, reject) {
+    constructor(link) {
         this.link = link;
-        this.resolve = resolve;
-        this.reject = reject;
         this.list = [];
     }
 
     /**
      *
      */
-    start() {
-        fs.access(this.link, fs.constants.W_OK, this.stats.bind(this));
+    async start() {
+        try {
+            await this.access();
+            let stats = await this.stats();
+
+            if (stats.isDirectory()) {
+                this.list = this.list.concat(await this.iterate());
+            } else {
+                this.list.push(this.link);
+            }
+
+            return this.reduce(this.list);
+
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    access() {
+        new Promise((resolve, reject) => {
+            fs.access(this.link, fs.constants.W_OK, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            });
+        });
     }
 
     /**
      *
      * @param {*} err
      */
-    stats(err) {
-        if (err) {
-            this.reject(err);
-            return err;
-        }
-
-        fs.stat(this.link, this.read.bind(this));
-    }
-
-    /**
-     *
-     * @param {*} err
-     * @param {*} data
-     */
-    read(err, data) {
-
-        if (err) {
-            this.reject(err);
-            return;
-        }
-
-        if (data.isDirectory()) {
-            fs.readdir(this.link, this.iterate.bind(this));
-        } else {
-            this.resolve([this.link]);
-        }
+    stats() {
+        return new Promise((resolve, reject) => {
+            fs.stat(this.link, (err, data) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(data);
+            });
+        });
     }
 
     /**
@@ -63,21 +71,26 @@ class Tiverse {
      * @param {*} err
      * @param {*} files
      */
-    iterate(err, files) {
+    iterate() {
+        return new Promise((resolve, reject) => {
+            fs.readdir(this.link, (err, files) => {
 
-        if (err) {
-            this.reject(err);
-            return;
-        }
+                if (err) {
+                    reject(err);
+                    return err;
+                }
 
-        Promise.all(
-            files.map((file) => {
-                file = path.join(this.link, file);
-                return Tiverse.getFiles(file);
-            })
-        )
-        .then((data) => this.resolve(this.reduce(data)))
-        .catch(this.reject);
+                Promise.all(
+                    files.map((file) => {
+                        file = path.join(this.link, file);
+                        return Tiverse.getFiles(file);
+                    })
+                )
+                .then(resolve)
+                .catch(reject);
+
+            });
+        });
     }
 
     /**
@@ -101,10 +114,8 @@ class Tiverse {
      * @param {*} link
      */
     static async getFiles(link) {
-        return new Promise((resolve, reject) => {
-            let instance = new Tiverse(link, resolve, reject);
-            instance.start();
-        })
+        let instance = new Tiverse(link);
+        return instance.start();
     }
 }
 

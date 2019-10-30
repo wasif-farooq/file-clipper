@@ -7,13 +7,7 @@ const getCipherKey = require('./key');
  * 
  * @param {*} param0 
  */
-async function decrypt({ file, secret }) {
-    let resolve = null;
-    let reject = null;
-    let promise = new Promise((res, rej) => {
-        resolve = res;
-        reject = rej;
-    });
+function decrypt({ file, secret }, cb) {
 
     // First, get the initialization vector from the file.
     const readInitVect = fs.createReadStream(file, { end: 15 });
@@ -38,13 +32,12 @@ async function decrypt({ file, secret }) {
             .on('close', () => {
                 fs.rename(file + '.unenc', file, (err) => {
                     if (err) {
-                        reject(err);
+                        throw err;
                     }
-                    resolve(true);
+                    cb(true);
                 });
             })
     });
-    return promise;
 }
 
 module.exports = decrypt;
