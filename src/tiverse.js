@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const promisify = require('./promisify');
 
 /**
  *
@@ -13,6 +14,11 @@ class Tiverse {
      * @param {*} reject
      */
     constructor(link) {
+        Object.assign(this, fs);
+        this.access = promisify(this.access);
+        this.stat = promisify(this.stat);
+        this.readdir = promisify(this.readdir);
+
         this.link = link;
         this.list = [];
     }
@@ -22,8 +28,8 @@ class Tiverse {
      */
     async start() {
         try {
-            await this.access();
-            let stats = await this.stats();
+            await this.access(this.link, this.constants.W_OK);
+            let stats = await this.stat(this.link);
 
             if (stats.isDirectory()) {
                 this.list = this.list.concat(await this.iterate());
@@ -38,59 +44,19 @@ class Tiverse {
         }
     }
 
-    access() {
-        new Promise((resolve, reject) => {
-            fs.access(this.link, fs.constants.W_OK, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(true);
-            });
-        });
-    }
-
-    /**
-     *
-     * @param {*} err
-     */
-    stats() {
-        return new Promise((resolve, reject) => {
-            fs.stat(this.link, (err, data) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(data);
-            });
-        });
-    }
-
     /**
      *
      * @param {*} err
      * @param {*} files
      */
-    iterate() {
-        return new Promise((resolve, reject) => {
-            fs.readdir(this.link, (err, files) => {
-
-                if (err) {
-                    reject(err);
-                    return err;
-                }
-
-                Promise.all(
-                    files.map((file) => {
-                        file = path.join(this.link, file);
-                        return Tiverse.getFiles(file);
-                    })
-                )
-                .then(resolve)
-                .catch(reject);
-
-            });
-        });
+    async iterate() {
+        let files = await this.readdir(this.link);
+        return Promise.all(
+            files.map((file) => {
+                file = path.join(this.link, file);
+                return Tiverse.getFiles(file);
+            })
+        );
     }
 
     /**

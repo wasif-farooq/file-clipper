@@ -67,9 +67,10 @@ class Clipper {
             return false;
         }
 
+        let time = Date.now();
         this.getFiles()
             //.then((files) => Promise.all(files.map((file) => this.action({ file, secret }))))
-            .then((data) => console.log("data :", data))
+            .then((data) => console.log("data :", data, Date.now() - time))
             .catch((data) => console.log("data : ", data));
     }
 }
