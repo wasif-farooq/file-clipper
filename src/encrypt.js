@@ -4,12 +4,14 @@ const path = require('path');
 const zlib = require('zlib');
 const Transform = require('./transform');
 const getCipherKey = require('./key');
+const promisify = require('./promisify');
+
 
 /**
  * 
  * @param {*} param0 
  */
-async function encrypt({ file, secret }, cb) {
+async function encrypt({ file, secret }) {
 
     // Generate a secure, pseudo random initialization vector.
     const initVect = crypto.randomBytes(16);
@@ -27,16 +29,14 @@ async function encrypt({ file, secret }, cb) {
         .pipe(gzip)
         .pipe(cipher)
         .pipe(transform)
-        .pipe(writeStream)
-        .on('close', () => {
-            fs.rename(file + '.enc', file, (err) => {
-                if (err) {
-                    throw err;
-                }
+        .pipe(writeStream);
 
-                cb(true);
-            });
-        });
+    let event = promisify(readStream.on);
+    let rename = promisify(fs.rename);
+
+    await event('close');
+    await rename(file + '.enc', file);
+    return true;
 }
 
 module.exports = encrypt;
