@@ -31,10 +31,10 @@ async function encrypt({ file, secret }) {
         .pipe(transform)
         .pipe(writeStream);
 
-    let event = promisify(readStream.on);
+    let onClose = promisify(readStream, 'close');
     let rename = promisify(fs.rename);
 
-    await event('close');
+    await onClose();
     await rename(file + '.enc', file);
     return true;
 }

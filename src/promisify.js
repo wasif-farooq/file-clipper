@@ -1,4 +1,4 @@
-const promisify = (fn) => (...params) => {
+const promisify = (fn, event = null) => (...params) => {
     return new Promise((resolve, reject) => {
 
         const callback = (...receives) => {
@@ -9,6 +9,11 @@ const promisify = (fn) => (...params) => {
             }
 
             resolve.apply(null, data);
+        }
+
+        if (event) {
+            return fn.on(event, callback);
+            
         }
 
         params.push(callback);
