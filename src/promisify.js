@@ -1,19 +1,27 @@
 const promisify = (fn, event = null) => (...params) => {
-    return new Promise((resolve, reject) => {
+    return event ? new Promise((resolve, reject) => {
+
+        const callback = (...data) => {
+            resolve.apply(null, data);
+        }
+
+        const onError = (...data) => {
+            reject.apply(null, data);
+        }
+
+        fn.on('error', onError);
+        fn.on(event, callback);
+
+    }) : new Promise((resolve, reject) => {
 
         const callback = (...receives) => {
             let [err, ...data] = receives;
             if (err) {
-                reject(err);
+                reject.call(fn, err);
                 return;
             }
 
-            resolve.apply(null, data);
-        }
-
-        if (event) {
-            return fn.on(event, callback);
-            
+            resolve.apply(fn, data);
         }
 
         params.push(callback);
