@@ -37,7 +37,7 @@ class Tiverse {
                 this.list.push(this.link);
             }
 
-            return this.reduce(this.list);
+            return await this.reduce(this.list);
 
         } catch (err) {
             throw err;
@@ -63,15 +63,16 @@ class Tiverse {
      *
      * @param {*} data
      */
-    reduce(data) {
+    async reduce(data) {
         let list = [];
-        data.forEach((item) => {
-            if (Array.isArray(item)) {
-                list = list.concat(this.reduce(item));
+        for (let i in data) {
+            if (Array.isArray(data[i])) {
+                list = list.concat(await this.reduce(data[i]));
             } else {
-                list.push(item);
+                list.push(data[i]);
             }
-        });
+        }
+
         return list;
     }
 
