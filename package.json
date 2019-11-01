@@ -37,7 +37,8 @@
   },
   "homepage": "https://github.com/sonsor/file-clipper#readme",
   "dependencies": {
-    "commander": "^3.0.2"
+    "commander": "^3.0.2",
+    "event-callback-promise": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

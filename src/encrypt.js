@@ -4,12 +4,12 @@ const path = require('path');
 const zlib = require('zlib');
 const Transform = require('./transform');
 const getCipherKey = require('./key');
-const promisify = require('./promisify');
+const ecp = require('event-callback-promise/src');
 
 
 /**
- * 
- * @param {*} param0 
+ *
+ * @param {*} param0
  */
 async function encrypt({ file, secret }) {
 
@@ -31,8 +31,8 @@ async function encrypt({ file, secret }) {
         .pipe(transform)
         .pipe(writeStream);
 
-    let onClose = promisify(readStream, 'close');
-    let rename = promisify(fs.rename);
+    let onClose = ecp(readStream, 'close');
+    let rename = ecp(fs.rename);
 
     await onClose();
     await rename(file + '.enc', file);

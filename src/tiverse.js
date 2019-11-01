@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const promisify = require('./promisify');
+const ecp = require('event-callback-promise/src');
 
 /**
  *
@@ -15,9 +15,9 @@ class Tiverse {
      */
     constructor(link) {
         Object.assign(this, fs);
-        this.access = promisify(this.access);
-        this.stat = promisify(this.stat);
-        this.readdir = promisify(this.readdir);
+        this.access = ecp(this.access);
+        this.stat = ecp(this.stat);
+        this.readdir = ecp(this.readdir);
 
         this.link = link;
         this.list = [];

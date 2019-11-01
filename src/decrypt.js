@@ -2,42 +2,41 @@ const crypto = require('crypto');
 const fs = require('fs');
 const zlib = require('zlib');
 const getCipherKey = require('./key');
+const ecp = require('event-callback-promise/src');
 
 /**
- * 
- * @param {*} param0 
+ *
+ * @param {*} param0
  */
-function decrypt({ file, secret }, cb) {
+async function decrypt({ file, secret }) {
 
     // First, get the initialization vector from the file.
     const readInitVect = fs.createReadStream(file, { end: 15 });
 
     let initVect;
-    readInitVect.on('data', (chunk) => {
-        initVect = chunk;
-    });
+    let onVectorData = ecp(readInitVect, 'data');
+    let onVectorDClose = ecp(readInitVect, 'close');
 
-    // Once we’ve got the initialization vector, we can decrypt the file.
-    readInitVect.on('close', () => {
-        const cipherKey = getCipherKey(secret);
-        const readStream = fs.createReadStream(file, { start: 16 });
-        const decipher = crypto.createDecipheriv('aes256', cipherKey, initVect);
-        const unzip = zlib.createUnzip();
-        const writeStream = fs.createWriteStream(file + '.unenc');
+    initVect = await onVectorData();
+    await onVectorDClose();
 
-        readStream
-            .pipe(decipher)
-            .pipe(unzip)
-            .pipe(writeStream)
-            .on('close', () => {
-                fs.rename(file + '.unenc', file, (err) => {
-                    if (err) {
-                        throw err;
-                    }
-                    cb(true);
-                });
-            })
-    });
+    const cipherKey = getCipherKey(secret);
+    const readStream = fs.createReadStream(file, { start: 16 });
+    const decipher = crypto.createDecipheriv('aes256', cipherKey, initVect);
+    const unzip = zlib.createUnzip();
+    const writeStream = fs.createWriteStream(file + '.unenc');
+
+    readStream
+        .pipe(decipher)
+        .pipe(unzip)
+        .pipe(writeStream);
+
+    let onClose = ecp(readStream, 'close');
+    let rename = ecp(fs.rename);
+
+    await onClose();
+    await rename(file + '.unenc', file);
+    return true;
 }
 
 module.exports = decrypt;
