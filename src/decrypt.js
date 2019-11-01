@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const zlib = require('zlib');
 const getCipherKey = require('./key');
-const ecp = require('event-callback-promise/src');
+const ecp = require('event-callback-promise');
 
 /**
  *

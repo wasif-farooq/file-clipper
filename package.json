@@ -38,11 +38,11 @@
   "homepage": "https://github.com/sonsor/file-clipper#readme",
   "dependencies": {
     "commander": "^3.0.2",
-    "event-callback-promise": "^1.0.0"
+    "event-callback-promise": "^1.0.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^6.5.1",
+    "eslint": "^6.6.0",
     "eslint-config-node": "^4.0.0",
     "husky": "^3.0.9",
     "istanbul": "^0.4.5",
@@ -52,7 +52,7 @@
     "sinon": "^7.5.0",
     "sinon-chai": "^3.3.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.9",
+    "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"
   },
   "husky": {

@@ -4,7 +4,7 @@ const path = require('path');
 const zlib = require('zlib');
 const Transform = require('./transform');
 const getCipherKey = require('./key');
-const ecp = require('event-callback-promise/src');
+const ecp = require('event-callback-promise');
 
 
 /**

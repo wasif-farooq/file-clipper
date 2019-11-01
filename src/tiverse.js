@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const ecp = require('event-callback-promise/src');
+const ecp = require('event-callback-promise');
 
 /**
  *
