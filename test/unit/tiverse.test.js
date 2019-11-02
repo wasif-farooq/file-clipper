@@ -1,9 +1,7 @@
 const { expect } = require('chai');
-const sinon = require('sinon');
-const { stub, fake, spy } = sinon;
+const { stub } = require('sinon');
 const Tiverse = require('../../src/tiverse');
-const fs = require('fs');
-const path = require('path');
+
 
 describe('#Tiverse', function() {
 
@@ -12,142 +10,148 @@ describe('#Tiverse', function() {
     let reject = null;
 
     beforeEach(() => {
-        fs.access = stub();
-        fs.stat = stub();
-        fs.readdir = stub();
-
-        resolve = spy();
-        reject = spy();
-
-        instance = new Tiverse('path/to/file', resolve, reject);;
+        instance = new Tiverse('path/to/file');
     })
 
     describe('#constructor', function() {
-        it('Should Update link, resolve, reject variables', function() {
+        it('Should Update link and promisify access, stat, readdir function', function() {
             expect(instance.link).to.equal('path/to/file');
+            expect(instance.access).to.be.a('function');
+            expect(instance.stat).to.be.a('function');
+            expect(instance.readdir).to.be.a('function');
         });
     })
 
     describe('#start', function() {
-        it('Should Not throw exception', function() {
-            expect(instance.link).to.equal('path/to/file');
-        });
-    });
 
-    describe('#stats', function () {
+        let stat;
+        let iterate;
+        let reduce;
 
         beforeEach(() => {
-            instance.read = spy();
-        })
-
-        it('should call reject function', function () {
-            instance.stats(new Error('premission denied'));
-            expect(reject.called);
+            stub(instance, 'access').returns(true);
+            stat = stub(instance, 'stat');
+            stub(instance, 'readdir');
+            iterate = stub(instance, 'iterate').returns([]);
+            reduce = stub(instance, 'reduce').returns([]);
         });
 
-        it('should not call read method', function () {
-            instance.stats(null);
-            expect(instance.read.called);
-        });
-    });
-
-    describe('#read', function() {
-
-        it('should call reject', function() {
-            instance.read(new Error('premission denied'), null);
-            expect(reject.called);
+        afterEach(() => {
+            instance.access.restore();
+            instance.stat.restore();
+            instance.readdir.restore();
+            instance.iterate.restore();
+            instance.reduce.restore();
         });
 
-        it('should call resolve if not a directory', function () {
+        it('Should just return passed link as array', async function() {
 
-            let data = {
+            stat.returns({
                 isDirectory: stub().returns(false)
-            };
+            });
+            reduce.returns(['path/to/file']);
 
-            instance.read(null, data);
-            expect(data.isDirectory.called);
-            expect(resolve.called);
+            let data = await instance.start();
+            expect(data).to.be.a('array');
+            expect(data).to.includes('path/to/file');
         });
 
-        it('should read directory if it is a directory', function () {
-            let data = {
-                isDirectory: stub().returns(true)
-            };
+        it('Should just return ', async function() {
 
-            instance.read(null, data);
-            expect(data.isDirectory.called);
-            expect(fs.readdir.called);
-            expect(resolve.called);
+            stat.returns({
+                isDirectory: stub().returns(true)
+            });
+
+            iterate.returns(['path/to/file', ['path/to/file2']]);
+            reduce.returns(['path/to/file', 'path/to/file2']);
+
+            let data = await instance.start();
+
+            expect(iterate.called).to.be.true;
+            expect(reduce.called).to.be.true;
+            expect(data).to.be.a('array');
+            expect(data).to.includes('path/to/file');
+            expect(data).to.includes('path/to/file2');
         });
     });
 
     describe('#iterate', function() {
 
-        let pres = null;
-        let prej = null;
-
+        let readdir;
+        let resolve;
+        let reject;
         beforeEach(() => {
-
-            let promise = new Promise((res, rej) => {
-                pres = res;
-                prej = rej;
-            });
-
-            instance.reduce = stub().returns(['path/to/file']);
-            stub(Tiverse, 'getFiles').returns(promise);
-        })
-
-        it('should call reject method', function () {
-            instance.iterate(new Error('premission denied'), null);
-            expect(reject.called);
-        });
-
-        it('should call resolve method', function () {
-            instance.iterate(null, ['path/to/files']);
-            pres(['path/to/file']);
-            expect(resolve.called);
-        });
-
-        it('should call reject of catch block', function () {
-            instance.iterate(null, ['path/to/files']);
-            reject('got error');
-            expect(reject.called);
+            readdir = stub(instance, 'readdir');
+            Tiverse.getFiles =
+            stub(Tiverse, 'getFiles').resolves('path/to/file/file1');
         });
 
         afterEach(() => {
+            instance.readdir.restore();
             Tiverse.getFiles.restore();
-        })
+        });
+
+        it('should return all file in directory', async function () {
+            readdir.returns([
+                'file1'
+            ]);
+
+            let data = await instance.iterate();
+            expect(data).to.be.a('array');
+            expect(data.length).to.be.equal(1);
+            expect(data).to.includes('path/to/file/file1');
+        });
+
+
     });
 
     describe('#reduce', function() {
+        it('should return empty array if passing empty array', async function () {
+            let data = await instance.reduce([]);
+            expect(data).to.be.a('array');
+            expect(data.length).to.be.equal(0);
+        });
 
-        it('should return array', function () {
-            let data = [
-                'path/to/file1',
+        it('should return return reduced array of length one', async function () {
+            let data = await instance.reduce(['path/to/file']);
+            expect(data).to.be.a('array');
+            expect(data.length).to.be.equal(1);
+        });
+
+        it('should return return reduced array of length three', async function () {
+            let param = [
+                'path/to/file',
                 [
                     'path/to/file2',
-                    'path/to/file3'
+                    [
+                        'path/to/file3'
+                    ]
                 ]
-            ];
-
-            let list = instance.reduce(data);
-            expect(list).to.have.members([
-                'path/to/file1',
-                'path/to/file2',
-                'path/to/file3'
-            ]);
+            ]
+            let data = await instance.reduce(param);
+            expect(data).to.be.a('array');
+            expect(data.length).to.be.equal(3);
+            expect(data).to.include('path/to/file');
+            expect(data).to.include('path/to/file2');
+            expect(data).to.include('path/to/file3');
         });
     });
 
     describe('#getFiles', function() {
 
-        it('should return a promise', function () {
-
-            let instance = Tiverse.getFiles('path/to/file');
-            instance.then((files) => {
-                expect(files).to.have.members(['path/to/file']);
-            });
+        beforeEach(() => {
+            stub(Tiverse.prototype, 'start').resolves(['path/to/file']);
         });
 
+        afterEach(() => {
+            Tiverse.prototype.start.restore();
+        })
+
+        it('should return link as array', async function () {
+            let data = await Tiverse.getFiles('path/to/file');
+            expect(data).to.be.a('array');
+            expect(data.length).to.be.equal(1);
+            expect(data).to.include('path/to/file');
+        });
     })
 });

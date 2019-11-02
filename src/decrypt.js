@@ -13,11 +13,10 @@ async function decrypt({ file, secret }) {
     // First, get the initialization vector from the file.
     const readInitVect = fs.createReadStream(file, { end: 15 });
 
-    let initVect;
-    let onVectorData = ecp(readInitVect, 'data');
-    let onVectorDClose = ecp(readInitVect, 'close');
+    const onVectorData = ecp(readInitVect, 'data');
+    const onVectorDClose = ecp(readInitVect, 'close');
 
-    initVect = await onVectorData();
+    const initVect = await onVectorData();
     await onVectorDClose();
 
     const cipherKey = getCipherKey(secret);
@@ -31,8 +30,8 @@ async function decrypt({ file, secret }) {
         .pipe(unzip)
         .pipe(writeStream);
 
-    let onClose = ecp(readStream, 'close');
-    let rename = ecp(fs.rename);
+    const onClose = ecp(readStream, 'close');
+    const rename = ecp(fs.rename);
 
     await onClose();
     await rename(file + '.unenc', file);

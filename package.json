@@ -9,7 +9,7 @@
     "lint": "eslint --ignore-path .gitignore ./src ./test",
     "pre:publish": "npm run lint && npm run test",
     "build": "npm test && node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js",
-    "test": "mocha --require ./test/bootstrap.js --timeout 10000 --reporter nyan --recursive   ./test/**/*.test.js",
+    "test": "mocha --require ./test/bootstrap.js --timeout 10000 --recursive   ./test/**/*.test.js",
     "cover": "istanbul cover node_modules/.bin/_mocha --  --require ./test/bootstrap.js --timeout 10000 --recursive --reporter nyan ./test/**/*.test.js",
     "coverage": "nyc --reporter html --reporter text npm test",
     "pre:commit": "npm test --silent"

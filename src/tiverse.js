@@ -27,23 +27,16 @@ class Tiverse {
      *
      */
     async start() {
-        try {
+        await this.access(this.link, this.constants.W_OK);
+        const stats = await this.stat(this.link);
 
-            await this.access(this.link, this.constants.W_OK);
-
-            let stats = await this.stat(this.link);
-
-            if (stats.isDirectory()) {
-                this.list = this.list.concat(await this.iterate());
-            } else {
-                this.list.push(this.link);
-            }
-
-            return await this.reduce(this.list);
-
-        } catch (err) {
-            throw err;
+        if (stats.isDirectory()) {
+            this.list = this.list.concat(await this.iterate());
+        } else {
+            this.list.push(this.link);
         }
+
+        return await this.reduce(this.list);
     }
 
     /**
@@ -52,7 +45,7 @@ class Tiverse {
      * @param {*} files
      */
     async iterate() {
-        let files = await this.readdir(this.link);
+        const files = await this.readdir(this.link);
         return Promise.all(
             files.map((file) => {
                 file = path.join(this.link, file);
@@ -83,7 +76,7 @@ class Tiverse {
      * @param {*} link
      */
     static async getFiles(link) {
-        let instance = new Tiverse(link);
+        const instance = new Tiverse(link);
         return instance.start();
     }
 }
