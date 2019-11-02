@@ -28,7 +28,9 @@ class Tiverse {
      */
     async start() {
         try {
+
             await this.access(this.link, this.constants.W_OK);
+
             let stats = await this.stat(this.link);
 
             if (stats.isDirectory()) {
