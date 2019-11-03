@@ -25,14 +25,14 @@ async function encrypt({ file, secret }) {
     // Create a write stream with a different file extension.
     const writeStream = fs.createWriteStream(path.join(file + '.enc'));
 
+    let onClose = ecp(writeStream, 'close');
+    let rename = ecp(fs.rename);/
+
     readStream
         .pipe(gzip)
         .pipe(cipher)
         .pipe(transform)
         .pipe(writeStream);
-
-    let onClose = ecp(readStream, 'close');
-    let rename = ecp(fs.rename);
 
     await onClose();
     await rename(file + '.enc', file);

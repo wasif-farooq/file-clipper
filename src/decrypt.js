@@ -30,7 +30,7 @@ async function decrypt({ file, secret }) {
         .pipe(unzip)
         .pipe(writeStream);
 
-    const onClose = ecp(readStream, 'close');
+    const onClose = ecp(writeStream, 'close');
     const rename = ecp(fs.rename);
 
     await onClose();

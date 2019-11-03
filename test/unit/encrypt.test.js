@@ -1,58 +1,63 @@
 const { expect } = require('chai');
-const sinon = require('sinon');
-const { stub, fake, spy } = sinon;
+const { stub } = require('sinon');
 const encrypt = require('../../src/encrypt');
 const fs = require('fs');
-const path = require('path');
 const crypto = require('crypto');
 const zlib = require('zlib');
 const mock = require('mock-fs');
+const { ObjectReadableMock, ObjectWritableMock, ObjectTransformMock } = require('../helpers');
 
-
+console.log(ObjectReadableMock);
 describe('#Encrypt', function() {
 
+    let getCipherKey;
+    let readable;
+    let writable;
+    let transform;
+    let Transform;
+
     beforeEach(() => {
-        mock({
-            '/file.txt': mock.file({
-                content: 'file content here',
-                mode: 0777
-            }),
-            '/file.txt.enc': mock.file({
-                content: 'file content here',
-                mode: 0777
-            }),
-            '/not-prem-file.txt': mock.file({
-                content: 'Not accessable content',
-                mode: 0777
-            }),
-            '/not-prem-file.txt.enc': mock.file({
-                content: 'Not accessable content',
-                mode: 0777
-            })
-        });
+
+        readable = new ObjectReadableMock();
+        writable = new ObjectWritableMock();
+        transform = new ObjectTransformMock();
+        Transform = ObjectTransformMock;
+
+        stub(fs, 'rename').resolves(true);
+
+        stub(crypto, 'randomBytes').returns('123456789012345');
+        stub(crypto, 'createCipheriv').returns(new ObjectTransformMock())
+        stub(getCipherKey).returns('1234567890');
+
+        stub(fs, 'createReadStream').returns(readable);
+        stub(fs, 'createWriteStream').returns(writable);
+
+        stub(zlib, 'createGzip').returns(transform);
     });
 
     afterEach(() => {
-        mock.restore();
+        crypto.randomBytes.restore();
+        fs.createReadStream.restore();
+        fs.createWriteStream.restore();
+        zlib.createGzip.restore();
+        fs.rename.restore();
     })
-    
-
-    it('should return promise and call resolve', function(done) {
 
 
-        fs.rename = stub().callsArgWithAsync(
-            2, null
-          );
+    it('should return promise and call resolve', function() {
 
         let file = encrypt({ file: '/file.txt', secret: 'mypassweord'});
-        file.then((data) => {
-            expect(data).to.equal(true);
-            done();
-        }).catch((err) => {
-            console.log("errr1 :L ", err);
-        });
-    });
 
+        readable.emit('data', 'hello');
+        readable.emit('close');
+        writable.emit('close');
+
+        return file
+            .then((data) => {
+                expect(data).to.equal(true);
+            })
+    });
+/*
     it('should return promise and call reject', function(done) {
 
         fs.rename = stub().callsArgWithAsync(
@@ -67,5 +72,5 @@ describe('#Encrypt', function() {
             done()
         });
     });
-
+*/
 });
