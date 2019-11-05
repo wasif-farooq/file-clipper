@@ -6,37 +6,68 @@ const Transform = require('./transform');
 const getCipherKey = require('./key');
 const ecp = require('event-callback-promise');
 
+class Encrypter
+{
+    getCipher(secret) {
+        // Generate a secure, pseudo random initialization vector.
+        this.initVect = crypto.randomBytes(16);
 
-/**
- *
- * @param {*} param0
- */
-async function encrypt({ file, secret }) {
+        // Generate a cipher key from the password.
+        const CIPHER_KEY = getCipherKey(secret);
 
-    // Generate a secure, pseudo random initialization vector.
-    const initVect = crypto.randomBytes(16);
+        return crypto.createCipheriv('aes256', CIPHER_KEY, this.initVect);
+    }
 
-    // Generate a cipher key from the password.
-    const CIPHER_KEY = getCipherKey(secret);
-    const readStream = fs.createReadStream(file);
-    const gzip = zlib.createGzip();
-    const cipher = crypto.createCipheriv('aes256', CIPHER_KEY, initVect);
-    const transform = new Transform(initVect);
-    // Create a write stream with a different file extension.
-    const writeStream = fs.createWriteStream(path.join(file + '.enc'));
+    getZip() {
+        return zlib.createGzip()
+    }
 
-    let onClose = ecp(writeStream, 'close');
-    let rename = ecp(fs.rename);/
+    getTransformation(initVect) {
+        new Transform(initVect)
+    }
+    
+    async pipe(
+        stream,
+        source,
+        destination,
+        pipes,
+        events
+    ) {
+    
+        pipes.map(data => stream = stream.pipe(data))
+        await events.onClose();
+        await events.onRename(source, destination);
+        return true;
+    }
 
-    readStream
-        .pipe(gzip)
-        .pipe(cipher)
-        .pipe(transform)
-        .pipe(writeStream);
-
-    await onClose();
-    await rename(file + '.enc', file);
-    return true;
+    async encrypt({ file, secret }) {
+    
+        const cipher = this.getCipher(secret);
+        const readStream = fs.createReadStream(file);
+        const gzip = this.getZip();
+        const transform = this.getTransformation(this.initVect);
+        // Create a write stream with a different file extension.
+        const writeStream = fs.createWriteStream(path.join(file + '.enc'));
+    
+        let close = ecp(writeStream, 'close');
+        let rename = ecp(fs.rename);
+    
+        return await this.pipe(
+            readStream,
+            file + '.enc',
+            file,
+            [
+                gzip, 
+                cipher, 
+                transform,
+                writeStream
+            ],
+            {
+                onClose: close,
+                onRename: rename
+            }
+        );
+    }
 }
 
-module.exports = encrypt;
+module.exports = new Encrypter;

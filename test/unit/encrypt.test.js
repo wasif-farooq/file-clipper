@@ -1,14 +1,16 @@
 const { expect } = require('chai');
 const { stub } = require('sinon');
-const encrypt = require('../../src/encrypt');
+const encryptor = require('../../src/encrypt');
 const fs = require('fs');
 const crypto = require('crypto');
 const zlib = require('zlib');
-const mock = require('mock-fs');
-const { ObjectReadableMock, ObjectWritableMock, ObjectTransformMock } = require('../helpers');
+const { 
+    ObjectReadableMock,
+    ObjectWritableMock,
+    ObjectTransformMock
+} = require('../helpers');
 
-console.log(ObjectReadableMock);
-describe('#Encrypt', function() {
+describe('#Encryptor', function() {
 
     let getCipherKey;
     let readable;
@@ -33,6 +35,7 @@ describe('#Encrypt', function() {
         stub(fs, 'createWriteStream').returns(writable);
 
         stub(zlib, 'createGzip').returns(transform);
+        stub(encryptor, 'pipe').resolves(true);
     });
 
     afterEach(() => {
@@ -41,21 +44,22 @@ describe('#Encrypt', function() {
         fs.createWriteStream.restore();
         zlib.createGzip.restore();
         fs.rename.restore();
+        encryptor.pipe.restore();
+    });
+
+    it('should return the cipher object', function() {
+        let cipher = encryptor.getCipher('mypassword');
+        console.log("cipher.prototype : ", cipher);
+        expect(cipher.prototype).to.be.equal('Cipher');
     })
 
 
     it('should return promise and call resolve', function() {
 
-        let file = encrypt({ file: '/file.txt', secret: 'mypassweord'});
-
-        readable.emit('data', 'hello');
-        readable.emit('close');
-        writable.emit('close');
-
-        return file
-            .then((data) => {
-                expect(data).to.equal(true);
-            })
+        let file = encryptor.encrypt({ file: '/file.txt', secret: 'mypassweord'});
+        return file.then((data) => {
+            expect(data).to.equal(true);
+        });
     });
 /*
     it('should return promise and call reject', function(done) {

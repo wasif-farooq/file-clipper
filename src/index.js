@@ -1,4 +1,4 @@
-const encrypt = require('./encrypt');
+const encrypt = require('./encrypt').encrypt;
 const decrypt = require('./decrypt');
 const { getFiles } = require('./tiverse');
 const resolve = require('path').resolve;
