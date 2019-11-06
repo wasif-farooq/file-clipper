@@ -23,7 +23,7 @@ class Encrypter
     }
 
     getTransformation(initVect) {
-        new Transform(initVect)
+        return new Transform(initVect)
     }
     
     async pipe(

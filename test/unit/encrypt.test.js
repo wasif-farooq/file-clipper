@@ -12,69 +12,148 @@ const {
 
 describe('#Encryptor', function() {
 
-    let getCipherKey;
-    let readable;
-    let writable;
-    let transform;
-    let Transform;
+    describe('#getCipher', function() {
 
-    beforeEach(() => {
+        let getCipherKey;
 
-        readable = new ObjectReadableMock();
-        writable = new ObjectWritableMock();
-        transform = new ObjectTransformMock();
-        Transform = ObjectTransformMock;
+        beforeEach(() => {
+            stub(getCipherKey).returns('1234567890');
+            stub(crypto, 'randomBytes').returns('123456789012345');
+            stub(crypto, 'createCipheriv').returns(new ObjectTransformMock())
+        });
 
-        stub(fs, 'rename').resolves(true);
+        afterEach(() => {
+            crypto.randomBytes.restore();
+            crypto.createCipheriv.restore();
+        })
 
-        stub(crypto, 'randomBytes').returns('123456789012345');
-        stub(crypto, 'createCipheriv').returns(new ObjectTransformMock())
-        stub(getCipherKey).returns('1234567890');
-
-        stub(fs, 'createReadStream').returns(readable);
-        stub(fs, 'createWriteStream').returns(writable);
-
-        stub(zlib, 'createGzip').returns(transform);
-        stub(encryptor, 'pipe').resolves(true);
-    });
-
-    afterEach(() => {
-        crypto.randomBytes.restore();
-        fs.createReadStream.restore();
-        fs.createWriteStream.restore();
-        zlib.createGzip.restore();
-        fs.rename.restore();
-        encryptor.pipe.restore();
-    });
-
-    it('should return the cipher object', function() {
-        let cipher = encryptor.getCipher('mypassword');
-        console.log("cipher.prototype : ", cipher);
-        expect(cipher.prototype).to.be.equal('Cipher');
+        it('should return the cipher object', function() {
+            let cipher = encryptor.getCipher('mypassword');
+            expect(crypto.randomBytes.called).to.be.true;
+            expect(crypto.createCipheriv.called).to.be.true;
+        })
     })
 
 
-    it('should return promise and call resolve', function() {
+    describe('#getZip', function() {
 
-        let file = encryptor.encrypt({ file: '/file.txt', secret: 'mypassweord'});
-        return file.then((data) => {
-            expect(data).to.equal(true);
+        beforeEach(() => {
+            stub(zlib, 'createGzip').returns(new ObjectTransformMock())
+        });
+
+        afterEach(() => {
+            zlib.createGzip.restore();
+        })
+
+        it('should call createGzip of zlib', function() {
+            encryptor.getZip();
+            expect(zlib.createGzip.called).to.be.true;
         });
     });
-/*
-    it('should return promise and call reject', function(done) {
 
-        fs.rename = stub().callsArgWithAsync(
-            2, 'premission error'
-          );
+    describe('#getTransformation', function() {
+        it('shbould not throw error if pass initvect', function() {
+            let transform = encryptor.getTransformation('1234567890123456');
+            expect(transform).to.not.equal('undefined'); 
+        });
 
-        let file = encrypt({ file: '/not-prem-file.txt', secret: 'mypassweord'});
-        file.then((data) => {
-            //expect(data).to.equal(true);
-        }).catch((err) => {
-            expect(err).to.not.be.null;
-            done()
+        it('shbould throw error if pass initvect', function() {
+            expect(encryptor.getTransformation()).to.throw;
         });
     });
-*/
+
+    describe('#pipe', function() {
+
+        let readable;
+        let writable;
+        let transform;
+        let events = {
+            onClose: () => {},
+            onRename: () => {}
+        };
+
+        beforeEach(() => {
+            stub(events, 'onClose').resolves(true);
+            stub(events, 'onRename').resolves(true);
+
+            readable = new ObjectReadableMock();
+            writable = new ObjectWritableMock();
+            transform = new ObjectTransformMock();
+
+        });
+
+        afterEach(() => {
+
+        });
+
+        it('should return true', function() {
+            let pipes = encryptor.pipe(
+                readable,
+                'file.txt',
+                'file.txt.enc',
+                [
+                    transform,
+                    writable
+                ],
+                events
+            );
+
+            readable.emit('data', 'this is a content');
+            readable.emit('close');
+            writable.emit('close');
+
+            return pipes
+            .then((data) => {
+                expect(data).to.be.true;
+            })
+            .catch(() => {});
+        })
+
+    });
+
+    describe('#encrypt', function() {
+
+        let getCipherKey;
+        let readable;
+        let writable;
+        let transform;
+        let Transform;
+
+        beforeEach(() => {
+ 
+            readable = new ObjectReadableMock();
+            writable = new ObjectWritableMock();
+            transform = new ObjectTransformMock();
+            Transform = ObjectTransformMock;
+    
+            stub(fs, 'rename').resolves(true);
+    
+            stub(crypto, 'randomBytes').returns('123456789012345');
+            stub(crypto, 'createCipheriv').returns(new ObjectTransformMock())
+            stub(getCipherKey).returns('1234567890');
+    
+            stub(fs, 'createReadStream').returns(readable);
+            stub(fs, 'createWriteStream').returns(writable);
+    
+            stub(zlib, 'createGzip').returns(transform);
+            stub(encryptor, 'pipe').resolves(true);
+        });
+    
+        afterEach(() => {
+            crypto.randomBytes.restore();
+            fs.createReadStream.restore();
+            fs.createWriteStream.restore();
+            zlib.createGzip.restore();
+            fs.rename.restore();
+            encryptor.pipe.restore();
+        });
+
+        it('should return promise and call resolve', function() {
+            let file = encryptor.encrypt({ file: '/file.txt', secret: 'mypassweord'});
+            return file.then((data) => {
+                expect(data).to.equal(true);
+            });
+        });
+    });
+
 });
