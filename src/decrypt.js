@@ -7,7 +7,7 @@ const ecp = require('event-callback-promise');
 
 class Decryptor
 {
-    async getDecipher(file, secret) {
+    async getDecipher(file, secret, ecp) {
         // First, get the initialization vector from the file.
         const readInitVect = fs.createReadStream(file, { end: 15 });
 
@@ -40,7 +40,7 @@ class Decryptor
 
     async decrypt({ file, secret }) {
 
-        const decipher = await this.getDecipher(file, secret);
+        const decipher = await this.getDecipher(file, secret, ecp);
 
         const readStream = fs.createReadStream(file, { start: 16 });
         const unzip = this.getUnZip();
