@@ -83,7 +83,9 @@ describe('#Encryptor', function() {
         });
 
         afterEach(() => {
-
+            events.onClose.restore();
+            events.onRename.restore();
+            readable = writable = transform = undefined;
         });
 
         it('should return true', function() {
