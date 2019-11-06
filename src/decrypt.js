@@ -4,38 +4,69 @@ const zlib = require('zlib');
 const getCipherKey = require('./key');
 const ecp = require('event-callback-promise');
 
-/**
- *
- * @param {*} param0
- */
-async function decrypt({ file, secret }) {
 
-    // First, get the initialization vector from the file.
-    const readInitVect = fs.createReadStream(file, { end: 15 });
+class Decryptor
+{
+    async getDecipher(file, secret) {
+        // First, get the initialization vector from the file.
+        const readInitVect = fs.createReadStream(file, { end: 15 });
 
-    const onVectorData = ecp(readInitVect, 'data');
-    const onVectorDClose = ecp(readInitVect, 'close');
+        const onVectorData = ecp(readInitVect, 'data');
+        const onVectorDataClose = ecp(readInitVect, 'close');
 
-    const initVect = await onVectorData();
-    await onVectorDClose();
+        const initVect = await onVectorData();
+        await onVectorDataClose();
 
-    const cipherKey = getCipherKey(secret);
-    const readStream = fs.createReadStream(file, { start: 16 });
-    const decipher = crypto.createDecipheriv('aes256', cipherKey, initVect);
-    const unzip = zlib.createUnzip();
-    const writeStream = fs.createWriteStream(file + '.unenc');
+        const cipherKey = getCipherKey(secret);
+        return crypto.createDecipheriv('aes256', cipherKey, initVect);
+    }
 
-    readStream
-        .pipe(decipher)
-        .pipe(unzip)
-        .pipe(writeStream);
+    getUnZip() {
+        return zlib.createUnzip();
+    }
 
-    const onClose = ecp(writeStream, 'close');
-    const rename = ecp(fs.rename);
+    async pipe(
+        stream,
+        source,
+        destination,
+        pipes,
+        events
+    ) {
+        pipes.map(data => stream = stream.pipe(data))
+        await events.onClose();
+        await events.onRename(source, destination);
+        return true;
+    }
 
-    await onClose();
-    await rename(file + '.unenc', file);
-    return true;
+    async decrypt({ file, secret }) {
+
+        const decipher = await this.getDecipher(file, secret);
+
+        const readStream = fs.createReadStream(file, { start: 16 });
+        const unzip = this.getUnZip();
+        const writeStream = fs.createWriteStream(file + '.unenc');
+
+        const onClose = ecp(writeStream, 'close');
+        const rename = ecp(fs.rename);
+
+        this.pipe(
+            readStream,
+            file + '.unenc',
+            file,
+            [
+                decipher,
+                unzip,
+                writeStream
+            ],
+            {
+                onClose: onClose,
+                onRename: rename
+            }
+        );
+
+        return true;
+
+    }
 }
 
-module.exports = decrypt;
+module.exports = new Decryptor;
