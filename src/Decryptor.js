@@ -4,9 +4,18 @@ const zlib = require('zlib');
 const getCipherKey = require('./key');
 const ecp = require('event-callback-promise');
 
-
+/**
+ *
+ */
 class Decryptor
 {
+    /**
+     *
+     * @param file
+     * @param secret
+     * @param ecp
+     * @returns {Promise<*>}
+     */
     async getDecipher(file, secret, ecp) {
         // First, get the initialization vector from the file.
         const readInitVect = fs.createReadStream(file, { end: 15 });
@@ -21,10 +30,23 @@ class Decryptor
         return crypto.createDecipheriv('aes256', cipherKey, initVect);
     }
 
+    /**
+     *
+     * @returns {*}
+     */
     getUnZip() {
         return zlib.createUnzip();
     }
 
+    /**
+     *
+     * @param stream
+     * @param source
+     * @param destination
+     * @param pipes
+     * @param events
+     * @returns {Promise<boolean>}
+     */
     async pipe(
         stream,
         source,
@@ -38,6 +60,12 @@ class Decryptor
         return true;
     }
 
+    /**
+     *
+     * @param file
+     * @param secret
+     * @returns {Promise<boolean>}
+     */
     async decrypt({ file, secret }) {
 
         const decipher = await this.getDecipher(file, secret, ecp);

@@ -1,64 +1,73 @@
 const { expect } = require('chai');
 const { stub } = require('sinon');
-const encryptor = require('../../src/encrypt');
+const decryptor = require('../../src/Decryptor');
 const fs = require('fs');
 const crypto = require('crypto');
 const zlib = require('zlib');
-const { 
+const {
     ObjectReadableMock,
     ObjectWritableMock,
     ObjectTransformMock
 } = require('../helpers');
 
-describe('#Encryptor', function() {
+describe('#Decryptor', function() {
 
-    describe('#getCipher', function() {
+    describe('#getDecipher', function() {
 
         let getCipherKey;
+        let readable;
+        let ecp;
 
         beforeEach(() => {
-            stub(getCipherKey).returns('1234567890');
-            stub(crypto, 'randomBytes').returns('123456789012345');
-            stub(crypto, 'createCipheriv').returns(new ObjectTransformMock())
+
+            ecp = stub().returns((fn, event) => {
+                return stub().resolves('123456789012345');
+            });
+
+            readable = new ObjectReadableMock();
+            getCipherKey = stub().returns('1234567890');
+            stub(fs, 'createReadStream').returns(readable);
+            stub(crypto, 'createDecipheriv').returns(new ObjectTransformMock())
         });
 
         afterEach(() => {
-            crypto.randomBytes.restore();
-            crypto.createCipheriv.restore();
+            readable = undefined;
+            fs.createReadStream.restore();
+            crypto.createDecipheriv.restore();
+            ecp = undefined;
+        });
+
+        it('should return the decipher object', function() {
+            let decipher = decryptor.getDecipher('file.txt', 'mypassword', ecp);
+
+            readable.emit('data', '1234567890123456');
+            readable.emit('close');
+
+            return decipher.then((data) => {
+                expect(data).to.be.a('object');
+                expect(getCipherKey.called).to.be.true;
+                expect(fs.createReadStream.called).to.be.true;
+                expect(crypto.createDecipheriv.called).to.be.true;
+            })
+            .catch(() => {});
         })
 
-        it('should return the cipher object', function() {
-            let cipher = encryptor.getCipher('mypassword');
-            expect(crypto.randomBytes.called).to.be.true;
-            expect(crypto.createCipheriv.called).to.be.true;
-        })
     })
 
-
-    describe('#getZip', function() {
-
+    describe('#getUnZip', function() {
+        let transform;
         beforeEach(() => {
-            stub(zlib, 'createGzip').returns(new ObjectTransformMock())
+            transform = new ObjectTransformMock();
+            stub(zlib, 'createUnzip').returns(transform);
         });
 
         afterEach(() => {
-            zlib.createGzip.restore();
-        })
-
-        it('should call createGzip of zlib', function() {
-            encryptor.getZip();
-            expect(zlib.createGzip.called).to.be.true;
-        });
-    });
-
-    describe('#getTransformation', function() {
-        it('shbould not throw error if pass initvect', function() {
-            let transform = encryptor.getTransformation('1234567890123456');
-            expect(transform).to.not.equal('undefined'); 
+            zlib.createUnzip.restore();
         });
 
-        it('shbould throw error if pass initvect', function() {
-            expect(encryptor.getTransformation()).to.throw;
+        it('should return readable stream', function () {
+            let unzip = decryptor.getUnZip();
+            expect(unzip.on).to.be.an('function');
         });
     });
 
@@ -89,10 +98,10 @@ describe('#Encryptor', function() {
         });
 
         it('should return true', function() {
-            let pipes = encryptor.pipe(
+            let pipes = decryptor.pipe(
                 readable,
+                'file.txt.unenc',
                 'file.txt',
-                'file.txt.enc',
                 [
                     transform,
                     writable
@@ -105,57 +114,56 @@ describe('#Encryptor', function() {
             writable.emit('close');
 
             return pipes
-            .then((data) => {
-                expect(data).to.be.true;
-            })
-            .catch(() => {});
+                .then((data) => {
+                    expect(data).to.be.true;
+                })
+                .catch(() => {});
         })
-
     });
 
-    describe('#encrypt', function() {
+    describe('#decrypt', function() {
 
         let getCipherKey;
         let readable;
         let writable;
         let transform;
-        let Transform;
 
         beforeEach(() => {
- 
+
             readable = new ObjectReadableMock();
             writable = new ObjectWritableMock();
             transform = new ObjectTransformMock();
-            Transform = ObjectTransformMock;
-    
+
             stub(fs, 'rename').resolves(true);
-    
+
             stub(crypto, 'randomBytes').returns('123456789012345');
             stub(crypto, 'createCipheriv').returns(new ObjectTransformMock())
             stub(getCipherKey).returns('1234567890');
-    
+
             stub(fs, 'createReadStream').returns(readable);
             stub(fs, 'createWriteStream').returns(writable);
-    
+
             stub(zlib, 'createGzip').returns(transform);
-            stub(encryptor, 'pipe').resolves(true);
+            stub(decryptor, 'getDecipher').resolves(transform);
+            stub(decryptor, 'pipe').resolves(true);
         });
-    
+
         afterEach(() => {
             crypto.randomBytes.restore();
+            crypto.createCipheriv.restore();
             fs.createReadStream.restore();
             fs.createWriteStream.restore();
             zlib.createGzip.restore();
             fs.rename.restore();
-            encryptor.pipe.restore();
+            decryptor.getDecipher.restore();
+            decryptor.pipe.restore();
         });
 
         it('should return promise and call resolve', function() {
-            let file = encryptor.encrypt({ file: '/file.txt', secret: 'mypassweord'});
+            let file = decryptor.decrypt({ file: '/file.txt', secret: 'mypassweord'});
             return file.then((data) => {
                 expect(data).to.equal(true);
             });
         });
     });
-
 });

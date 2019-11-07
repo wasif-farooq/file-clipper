@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { stub } = require('sinon');
-const Tiverse = require('../../src/tiverse');
+const Tiverse = require('../../src/Tiverse');
 
 
 describe('#Tiverse', function() {

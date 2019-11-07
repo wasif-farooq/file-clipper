@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { stub } = require('sinon');
-const decryptor = require('../../src/decrypt');
+const encryptor = require('../../src/Encryptor');
 const fs = require('fs');
 const crypto = require('crypto');
 const zlib = require('zlib');
@@ -10,64 +10,55 @@ const {
     ObjectTransformMock
 } = require('../helpers');
 
-describe('#Decryptor', function() {
+describe('#Encryptor', function() {
 
-    describe('#getDecipher', function() {
+    describe('#getCipher', function() {
 
         let getCipherKey;
-        let readable;
-        let ecp;
 
         beforeEach(() => {
-
-            ecp = stub().returns((fn, event) => {
-                return stub().resolves('123456789012345');
-            });
-
-            readable = new ObjectReadableMock();
-            getCipherKey = stub().returns('1234567890');
-            stub(fs, 'createReadStream').returns(readable);
-            stub(crypto, 'createDecipheriv').returns(new ObjectTransformMock())
+            stub(getCipherKey).returns('1234567890');
+            stub(crypto, 'randomBytes').returns('123456789012345');
+            stub(crypto, 'createCipheriv').returns(new ObjectTransformMock())
         });
 
         afterEach(() => {
-            readable = undefined;
-            fs.createReadStream.restore();
-            crypto.createDecipheriv.restore();
-            ecp = undefined;
-        });
-
-        it('should return the decipher object', function() {
-            let decipher = decryptor.getDecipher('file.txt', 'mypassword', ecp);
-
-            readable.emit('data', '1234567890123456');
-            readable.emit('close');
-
-            return decipher.then((data) => {
-                expect(data).to.be.a('object');
-                expect(getCipherKey.called).to.be.true;
-                expect(fs.createReadStream.called).to.be.true;
-                expect(crypto.createDecipheriv.called).to.be.true;
-            })
-            .catch(() => {});
+            crypto.randomBytes.restore();
+            crypto.createCipheriv.restore();
         })
 
+        it('should return the cipher object', function() {
+            let cipher = encryptor.getCipher('mypassword');
+            expect(crypto.randomBytes.called).to.be.true;
+            expect(crypto.createCipheriv.called).to.be.true;
+        })
     })
 
-    describe('#getUnZip', function() {
-        let transform;
+
+    describe('#getZip', function() {
+
         beforeEach(() => {
-            transform = new ObjectTransformMock();
-            stub(zlib, 'createUnzip').returns(transform);
+            stub(zlib, 'createGzip').returns(new ObjectTransformMock())
         });
 
         afterEach(() => {
-            zlib.createUnzip.restore();
+            zlib.createGzip.restore();
+        })
+
+        it('should call createGzip of zlib', function() {
+            encryptor.getZip();
+            expect(zlib.createGzip.called).to.be.true;
+        });
+    });
+
+    describe('#getTransformation', function() {
+        it('shbould not throw error if pass initvect', function() {
+            let transform = encryptor.getTransformation('1234567890123456');
+            expect(transform).to.not.equal('undefined');
         });
 
-        it('should return readable stream', function () {
-            let unzip = decryptor.getUnZip();
-            expect(unzip.on).to.be.an('function');
+        it('shbould throw error if pass initvect', function() {
+            expect(encryptor.getTransformation()).to.throw;
         });
     });
 
@@ -98,10 +89,10 @@ describe('#Decryptor', function() {
         });
 
         it('should return true', function() {
-            let pipes = decryptor.pipe(
+            let pipes = encryptor.pipe(
                 readable,
-                'file.txt.unenc',
                 'file.txt',
+                'file.txt.enc',
                 [
                     transform,
                     writable
@@ -114,25 +105,28 @@ describe('#Decryptor', function() {
             writable.emit('close');
 
             return pipes
-                .then((data) => {
-                    expect(data).to.be.true;
-                })
-                .catch(() => {});
+            .then((data) => {
+                expect(data).to.be.true;
+            })
+            .catch(() => {});
         })
+
     });
 
-    describe('#decrypt', function() {
+    describe('#encrypt', function() {
 
         let getCipherKey;
         let readable;
         let writable;
         let transform;
+        let Transform;
 
         beforeEach(() => {
 
             readable = new ObjectReadableMock();
             writable = new ObjectWritableMock();
             transform = new ObjectTransformMock();
+            Transform = ObjectTransformMock;
 
             stub(fs, 'rename').resolves(true);
 
@@ -144,26 +138,24 @@ describe('#Decryptor', function() {
             stub(fs, 'createWriteStream').returns(writable);
 
             stub(zlib, 'createGzip').returns(transform);
-            stub(decryptor, 'getDecipher').resolves(transform);
-            stub(decryptor, 'pipe').resolves(true);
+            stub(encryptor, 'pipe').resolves(true);
         });
 
         afterEach(() => {
             crypto.randomBytes.restore();
-            crypto.createCipheriv.restore();
             fs.createReadStream.restore();
             fs.createWriteStream.restore();
             zlib.createGzip.restore();
             fs.rename.restore();
-            decryptor.getDecipher.restore();
-            decryptor.pipe.restore();
+            encryptor.pipe.restore();
         });
 
         it('should return promise and call resolve', function() {
-            let file = decryptor.decrypt({ file: '/file.txt', secret: 'mypassweord'});
+            let file = encryptor.encrypt({ file: '/file.txt', secret: 'mypassweord'});
             return file.then((data) => {
                 expect(data).to.equal(true);
             });
         });
     });
+
 });
