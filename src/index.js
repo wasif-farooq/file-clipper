@@ -70,8 +70,8 @@ class Clipper {
 
         this.getFiles()
             .then((files) => Promise.all(files.map((file) => this.action({ file, secret }))))
-            .then((data) => console.log("data :", data))
-            .catch((data) => console.log("data : ", data));
+            .then((data) => true)
+            .catch((data) => false);
     }
 }
 
