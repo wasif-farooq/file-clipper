@@ -29,6 +29,7 @@ class Clipper {
     /**
      *
      * @param {*} path
+     * @return Promise
      */
     async resolve(file) {
         return path.resolve(file);
@@ -36,7 +37,10 @@ class Clipper {
 
     /**
      *
-     * @param {*} param0
+     * @param mode
+     * @param path
+     * @param secret
+     * @return {Clipper}
      */
     static start({ mode, path, secret }) {
         let instance = new this;
@@ -60,6 +64,7 @@ class Clipper {
 
     /**
      *
+     * @return {boolean}
      */
     run() {
         const { secret, action } = this;

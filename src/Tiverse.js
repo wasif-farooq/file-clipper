@@ -25,6 +25,7 @@ class Tiverse {
 
     /**
      *
+     * @return {Promise<*>}
      */
     async start() {
         await this.access(this.link, this.constants.W_OK);
@@ -41,8 +42,7 @@ class Tiverse {
 
     /**
      *
-     * @param {*} err
-     * @param {*} files
+     * @return {Promise<any[]>}
      */
     async iterate() {
         const files = await this.readdir(this.link);
@@ -56,7 +56,8 @@ class Tiverse {
 
     /**
      *
-     * @param {*} data
+     * @param data
+     * @return {Promise<Array>}
      */
     async reduce(data) {
         let list = [];
@@ -73,7 +74,8 @@ class Tiverse {
 
     /**
      *
-     * @param {*} link
+     * @param link
+     * @return {Promise<*>}
      */
     static async getFiles(link) {
         const instance = new Tiverse(link);
