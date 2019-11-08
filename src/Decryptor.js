@@ -75,7 +75,7 @@ class Decryptor
         const writeStream = fs.createWriteStream(file + '.unenc');
 
         const onClose = ecp(writeStream, 'close');
-        const rename = ecp(fs.rename);
+        const onRename = ecp(fs.rename);
 
         this.pipe(
             readStream,
@@ -87,8 +87,8 @@ class Decryptor
                 writeStream
             ],
             {
-                onClose: onClose,
-                onRename: rename
+                onClose,
+                onRename
             }
         );
 

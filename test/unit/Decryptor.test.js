@@ -10,9 +10,9 @@ const {
     ObjectTransformMock
 } = require('../helpers');
 
-describe('#Decryptor', function() {
+describe('#Decryptor', () => {
 
-    describe('#getDecipher', function() {
+    describe('#getDecipher', () => {
 
         let getCipherKey;
         let readable;
@@ -20,9 +20,7 @@ describe('#Decryptor', function() {
 
         beforeEach(() => {
 
-            ecp = stub().returns((fn, event) => {
-                return stub().resolves('123456789012345');
-            });
+            ecp = stub().returns(() => stub().resolves('123456789012345'));
 
             readable = new ObjectReadableMock();
             getCipherKey = stub().returns('1234567890');
@@ -37,8 +35,8 @@ describe('#Decryptor', function() {
             ecp = undefined;
         });
 
-        it('should return the decipher object', function() {
-            let decipher = decryptor.getDecipher('file.txt', 'mypassword', ecp);
+        it('should return the decipher object', () => {
+            const decipher = decryptor.getDecipher('file.txt', 'mypassword', ecp);
 
             readable.emit('data', '1234567890123456');
             readable.emit('close');
@@ -49,12 +47,14 @@ describe('#Decryptor', function() {
                 expect(fs.createReadStream.called).to.be.true;
                 expect(crypto.createDecipheriv.called).to.be.true;
             })
-            .catch(() => {});
+            .catch(() => {
+                // cll on error
+            });
         })
 
     })
 
-    describe('#getUnZip', function() {
+    describe('#getUnZip', () => {
         let transform;
         beforeEach(() => {
             transform = new ObjectTransformMock();
@@ -65,20 +65,24 @@ describe('#Decryptor', function() {
             zlib.createUnzip.restore();
         });
 
-        it('should return readable stream', function () {
-            let unzip = decryptor.getUnZip();
+        it('should return readable stream', () => {
+            const unzip = decryptor.getUnZip();
             expect(unzip.on).to.be.an('function');
         });
     });
 
-    describe('#pipe', function() {
+    describe('#pipe', () => {
 
         let readable;
         let writable;
         let transform;
-        let events = {
-            onClose: () => {},
-            onRename: () => {}
+        const events = {
+            onClose: () => {
+                // call on close
+            },
+            onRename: () => {
+                // call on rename
+            }
         };
 
         beforeEach(() => {
@@ -97,8 +101,8 @@ describe('#Decryptor', function() {
             readable = writable = transform = undefined;
         });
 
-        it('should return true', function() {
-            let pipes = decryptor.pipe(
+        it('should return true', () => {
+            const pipes = decryptor.pipe(
                 readable,
                 'file.txt.unenc',
                 'file.txt',
@@ -117,11 +121,13 @@ describe('#Decryptor', function() {
                 .then((data) => {
                     expect(data).to.be.true;
                 })
-                .catch(() => {});
+                .catch(() => {
+                    // call on error
+                });
         })
     });
 
-    describe('#decrypt', function() {
+    describe('#decrypt', () => {
 
         let getCipherKey;
         let readable;
@@ -159,8 +165,8 @@ describe('#Decryptor', function() {
             decryptor.pipe.restore();
         });
 
-        it('should return promise and call resolve', function() {
-            let file = decryptor.decrypt({ file: '/file.txt', secret: 'mypassweord'});
+        it('should return promise and call resolve', () => {
+            const file = decryptor.decrypt({ file: '/file.txt', secret: 'mypassweord'});
             return file.then((data) => {
                 expect(data).to.equal(true);
             });

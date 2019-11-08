@@ -10,9 +10,9 @@ const {
     ObjectTransformMock
 } = require('../helpers');
 
-describe('#Encryptor', function() {
+describe('#Encryptor', () => {
 
-    describe('#getCipher', function() {
+    describe('#getCipher', () => {
 
         let getCipherKey;
 
@@ -27,15 +27,15 @@ describe('#Encryptor', function() {
             crypto.createCipheriv.restore();
         })
 
-        it('should return the cipher object', function() {
-            let cipher = encryptor.getCipher('mypassword');
+        it('should return the cipher object', () => {
+            encryptor.getCipher('mypassword');
             expect(crypto.randomBytes.called).to.be.true;
             expect(crypto.createCipheriv.called).to.be.true;
         })
     })
 
 
-    describe('#getZip', function() {
+    describe('#getZip', () => {
 
         beforeEach(() => {
             stub(zlib, 'createGzip').returns(new ObjectTransformMock())
@@ -45,31 +45,35 @@ describe('#Encryptor', function() {
             zlib.createGzip.restore();
         })
 
-        it('should call createGzip of zlib', function() {
+        it('should call createGzip of zlib', () => {
             encryptor.getZip();
             expect(zlib.createGzip.called).to.be.true;
         });
     });
 
-    describe('#getTransformation', function() {
-        it('shbould not throw error if pass initvect', function() {
-            let transform = encryptor.getTransformation('1234567890123456');
+    describe('#getTransformation', () => {
+        it('shbould not throw error if pass initvect', () => {
+            const transform = encryptor.getTransformation('1234567890123456');
             expect(transform).to.not.equal('undefined');
         });
 
-        it('shbould throw error if pass initvect', function() {
+        it('shbould throw error if pass initvect', () => {
             expect(encryptor.getTransformation()).to.throw;
         });
     });
 
-    describe('#pipe', function() {
+    describe('#pipe', () => {
 
         let readable;
         let writable;
         let transform;
-        let events = {
-            onClose: () => {},
-            onRename: () => {}
+        const events = {
+            onClose: () => {
+                // call on close
+            },
+            onRename: () => {
+                // call on rename
+            }
         };
 
         beforeEach(() => {
@@ -88,8 +92,8 @@ describe('#Encryptor', function() {
             readable = writable = transform = undefined;
         });
 
-        it('should return true', function() {
-            let pipes = encryptor.pipe(
+        it('should return true', () => {
+            const pipes = encryptor.pipe(
                 readable,
                 'file.txt',
                 'file.txt.enc',
@@ -108,12 +112,14 @@ describe('#Encryptor', function() {
             .then((data) => {
                 expect(data).to.be.true;
             })
-            .catch(() => {});
+            .catch(() => {
+                // on error
+            });
         })
 
     });
 
-    describe('#encrypt', function() {
+    describe('#encrypt', () => {
 
         let getCipherKey;
         let readable;
@@ -150,12 +156,11 @@ describe('#Encryptor', function() {
             encryptor.pipe.restore();
         });
 
-        it('should return promise and call resolve', function() {
-            let file = encryptor.encrypt({ file: '/file.txt', secret: 'mypassweord'});
+        it('should return promise and call resolve', () => {
+            const file = encryptor.encrypt({ file: '/file.txt', secret: 'mypassweord'});
             return file.then((data) => {
                 expect(data).to.equal(true);
             });
         });
     });
-
 });

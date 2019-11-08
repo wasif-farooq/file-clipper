@@ -3,18 +3,16 @@ const { stub } = require('sinon');
 const Tiverse = require('../../src/Tiverse');
 
 
-describe('#Tiverse', function() {
+describe('#Tiverse', () => {
 
     let instance = null;
-    let resolve = null;
-    let reject = null;
 
     beforeEach(() => {
         instance = new Tiverse('path/to/file');
     })
 
-    describe('#constructor', function() {
-        it('Should Update link and promisify access, stat, readdir function', function() {
+    describe('#constructor', () => {
+        it('Should Update link and promisify access, stat, readdir function', () => {
             expect(instance.link).to.equal('path/to/file');
             expect(instance.access).to.be.a('function');
             expect(instance.stat).to.be.a('function');
@@ -22,7 +20,7 @@ describe('#Tiverse', function() {
         });
     })
 
-    describe('#start', function() {
+    describe('#start', () => {
 
         let stat;
         let iterate;
@@ -44,19 +42,19 @@ describe('#Tiverse', function() {
             instance.reduce.restore();
         });
 
-        it('Should just return passed link as array', async function() {
+        it('Should just return passed link as array', async () => {
 
             stat.returns({
                 isDirectory: stub().returns(false)
             });
             reduce.returns(['path/to/file']);
 
-            let data = await instance.start();
+            const data = await instance.start();
             expect(data).to.be.a('array');
             expect(data).to.includes('path/to/file');
         });
 
-        it('Should just return ', async function() {
+        it('Should just return ', async () => {
 
             stat.returns({
                 isDirectory: stub().returns(true)
@@ -65,7 +63,7 @@ describe('#Tiverse', function() {
             iterate.returns(['path/to/file', ['path/to/file2']]);
             reduce.returns(['path/to/file', 'path/to/file2']);
 
-            let data = await instance.start();
+            const data = await instance.start();
 
             expect(iterate.called).to.be.true;
             expect(reduce.called).to.be.true;
@@ -75,11 +73,10 @@ describe('#Tiverse', function() {
         });
     });
 
-    describe('#iterate', function() {
+    describe('#iterate', () => {
 
         let readdir;
-        let resolve;
-        let reject;
+
         beforeEach(() => {
             readdir = stub(instance, 'readdir');
             Tiverse.getFiles =
@@ -91,35 +88,33 @@ describe('#Tiverse', function() {
             Tiverse.getFiles.restore();
         });
 
-        it('should return all file in directory', async function () {
+        it('should return all file in directory', async () => {
             readdir.returns([
                 'file1'
             ]);
 
-            let data = await instance.iterate();
+            const data = await instance.iterate();
             expect(data).to.be.a('array');
             expect(data.length).to.be.equal(1);
             expect(data).to.includes('path/to/file/file1');
         });
-
-
     });
 
-    describe('#reduce', function() {
-        it('should return empty array if passing empty array', async function () {
-            let data = await instance.reduce([]);
+    describe('#reduce', () => {
+        it('should return empty array if passing empty array', async () => {
+            const data = await instance.reduce([]);
             expect(data).to.be.a('array');
             expect(data.length).to.be.equal(0);
         });
 
-        it('should return return reduced array of length one', async function () {
-            let data = await instance.reduce(['path/to/file']);
+        it('should return return reduced array of length one', async () => {
+            const data = await instance.reduce(['path/to/file']);
             expect(data).to.be.a('array');
             expect(data.length).to.be.equal(1);
         });
 
-        it('should return return reduced array of length three', async function () {
-            let param = [
+        it('should return return reduced array of length three', async () => {
+            const param = [
                 'path/to/file',
                 [
                     'path/to/file2',
@@ -128,7 +123,7 @@ describe('#Tiverse', function() {
                     ]
                 ]
             ]
-            let data = await instance.reduce(param);
+            const data = await instance.reduce(param);
             expect(data).to.be.a('array');
             expect(data.length).to.be.equal(3);
             expect(data).to.include('path/to/file');
@@ -137,7 +132,7 @@ describe('#Tiverse', function() {
         });
     });
 
-    describe('#getFiles', function() {
+    describe('#getFiles', () => {
 
         beforeEach(() => {
             stub(Tiverse.prototype, 'start').resolves(['path/to/file']);
@@ -147,8 +142,8 @@ describe('#Tiverse', function() {
             Tiverse.prototype.start.restore();
         })
 
-        it('should return link as array', async function () {
-            let data = await Tiverse.getFiles('path/to/file');
+        it('should return link as array', async () => {
+            const data = await Tiverse.getFiles('path/to/file');
             expect(data).to.be.a('array');
             expect(data.length).to.be.equal(1);
             expect(data).to.include('path/to/file');

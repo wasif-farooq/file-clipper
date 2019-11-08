@@ -2,9 +2,9 @@ const { expect } = require('chai');
 const { stub } = require('sinon');
 const Transform = require('../../src/transform');
 
-describe('#Transform', function() {
+describe('#Transform', () => {
 
-    describe('#constructor', function() {
+    describe('#constructor', () => {
         let transform;
 
         beforeEach(() => {
@@ -15,13 +15,13 @@ describe('#Transform', function() {
             transform = undefined;
         })
 
-        it('should set init vector', function () {
+        it('should set init vector', () => {
             expect(transform.initVect).to.be.equal('1234567890');
             expect(transform.appended).to.be.false;
         });
     });
 
-    describe('#transform', function() {
+    describe('#transform', () => {
         let transform;
         let callback;
 
@@ -35,7 +35,7 @@ describe('#Transform', function() {
             transform = undefined;
         })
 
-        it('should append vector in chunk on first call', function () {
+        it('should append vector in chunk on first call', () => {
             transform.appended = false;
             transform._transform('abcd', 'utf', callback);
             expect(callback.called).to.be.true;
@@ -43,7 +43,7 @@ describe('#Transform', function() {
             expect(transform.push.called).to.be.true;
         });
 
-        it('should not append vector in chunk on second call', function () {
+        it('should not append vector in chunk on second call', () => {
             transform.appended = true;
             transform._transform('abcd', 'utf', callback);
             expect(callback.called).to.be.true;

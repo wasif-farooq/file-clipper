@@ -80,8 +80,8 @@ class Encrypter
         // Create a write stream with a different file extension.
         const writeStream = fs.createWriteStream(path.join(file + '.enc'));
 
-        let close = ecp(writeStream, 'close');
-        let rename = ecp(fs.rename);
+        const onClose = ecp(writeStream, 'close');
+        const onRename = ecp(fs.rename);
 
         return await this.pipe(
             readStream,
@@ -94,8 +94,8 @@ class Encrypter
                 writeStream
             ],
             {
-                onClose: close,
-                onRename: rename
+                onClose,
+                onRename
             }
         );
     }
