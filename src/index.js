@@ -33,7 +33,7 @@ class Clipper {
     }
 
     /**
-     * 
+     *
      * @return {Promise<any>}
      */
     done() {
