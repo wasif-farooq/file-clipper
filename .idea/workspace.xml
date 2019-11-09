@@ -4,16 +4,7 @@
     <list default="true" id="3c8979a4-74f3-4c7c-9cba-4a3fb8b1d022" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.nyc_output/processinfo/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/.nyc_output/processinfo/index.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/file-clipper.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/file-clipper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Decryptor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Decryptor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Encryptor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Encryptor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Tiverse.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiverse.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/helpers/Readable.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/helpers/Readable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/helpers/Transform.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/helpers/Transform.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/helpers/Writable.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/helpers/Writable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/Encryptor.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/Encryptor.test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/index.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/index.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +68,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/unit/Encryptor.test.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="164">
@@ -95,11 +86,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+            <state relative-caret-position="304">
+              <caret line="11" column="3" lean-forward="true" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -170,7 +161,6 @@
         <option value="$PROJECT_DIR$/test/unit/key.test.js" />
         <option value="$PROJECT_DIR$/test/unit/Tiverse.test.js" />
         <option value="$PROJECT_DIR$/test/unit/Decryptor.test.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/Tiverse.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/test/unit/index.test.js" />
@@ -180,6 +170,7 @@
         <option value="$PROJECT_DIR$/test/helpers/Transform.js" />
         <option value="$PROJECT_DIR$/test/helpers/Writable.js" />
         <option value="$PROJECT_DIR$/test/unit/Encryptor.test.js" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -237,12 +228,12 @@
       <workItem from="1573123611584" duration="2784000" />
       <workItem from="1573132295379" duration="2409000" />
       <workItem from="1573183461505" duration="5071000" />
-      <workItem from="1573216737671" duration="3437000" />
+      <workItem from="1573216737671" duration="3634000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99229000" />
+    <option name="totallyTimeSpent" value="99426000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-37" width="1368" height="805" extended-state="6" />
@@ -403,13 +394,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Tiverse.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
@@ -470,6 +454,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
           <caret line="132" column="50" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="11" column="3" lean-forward="true" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
         </state>
       </provider>
     </entry>
