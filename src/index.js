@@ -1,5 +1,5 @@
-const encrypt = require('./Encryptor').encrypt;
-const decrypt = require('./Decryptor').decrypt;
+const encryptor = require('./Encryptor');
+const decryptor = require('./Decryptor');
 const tiverse = require('./Tiverse');
 const path = require('path');
 const command = require('./command');
@@ -17,6 +17,12 @@ class Clipper {
         this.action = false;
         this.path = null;
         this.secret = null;
+        this.resolve = null;
+        this.reject = null;
+        this.isDone = new Promise((res, rej) => {
+            this.resolve = res;
+            this.reject = rej;
+        });
     }
 
     /**
@@ -24,6 +30,14 @@ class Clipper {
      */
     async getFiles() {
         return await tiverse.getFiles(path.resolve(this.path))
+    }
+
+    /**
+     * 
+     * @return {Promise<any>}
+     */
+    done() {
+        return this.isDone;
     }
 
     /**
@@ -40,10 +54,10 @@ class Clipper {
 
         switch (mode) {
             case 'encrypt':
-                instance.action = encrypt;
+                instance.action = encryptor.encrypt.bind(encryptor);
             break;
             case 'decrypt':
-                instance.action = decrypt;
+                instance.action = decryptor.decrypt.bind(decryptor);
             break;
             default:
                 instance.action = false;
@@ -66,8 +80,8 @@ class Clipper {
 
         this.getFiles()
             .then((files) => Promise.all(files.map((file) => this.action({ file, secret }))))
-            .then(() => true)
-            .catch(() => false);
+            .then((data) => this.resolve(data))
+            .catch((err) => this.reject(err));
     }
 }
 
