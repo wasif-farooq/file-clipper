@@ -8,7 +8,7 @@
     "dev": "node ./src/index.js",
     "lint": "eslint --ignore-path .gitignore ./src ./test",
     "pre:publish": "npm run lint && npm run test",
-    "build": "npm test && node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js",
+    "build": "npm run pre:publish && node ./node_modules/webpack/bin/webpack.js --mode production --config webpack/webpack.config.js",
     "test": "mocha --require ./test/bootstrap.js --timeout 10000 --recursive   ./test/**/*.test.js",
     "coverage": "nyc --reporter html --reporter text npm test",
     "pre:commit": "npm run lint && npm run coverage --silent"
