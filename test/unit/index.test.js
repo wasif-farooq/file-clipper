@@ -17,35 +17,18 @@ describe("#Clipper", () => {
         const clipper = new Clipper();
 
         beforeEach(() => {
-            stub(clipper, 'resolve').returns('path/to/file');
             stub(tiverse, 'getFiles').resolves(['path/to/file']);
+            stub(path, 'resolve').returns('path/to/file');
         });
 
         afterEach(() => {
-            clipper.resolve.restore();
             tiverse.getFiles.restore();
+            path.resolve.restore();
         })
 
         it('should return the path for a file', async () => {
             const files = await clipper.getFiles();
             expect(files).to.be.includes('path/to/file');
-        });
-    });
-
-    describe('#resolve', () => {
-        const clipper = new Clipper();
-
-        beforeEach(() => {
-            stub(path, 'resolve').returns('path/to/file');
-        });
-
-        afterEach(() => {
-            path.resolve.restore();
-        });
-
-        it('should return absolute path', async () => {
-            const fullPath = await clipper.resolve('file');
-            expect(fullPath).to.be.equal('path/to/file');
         });
     });
 

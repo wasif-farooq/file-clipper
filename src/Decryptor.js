@@ -18,16 +18,16 @@ class Decryptor
      */
     async getDecipher(file, secret, ecp) {
         // First, get the initialization vector from the file.
-        const readInitVect = fs.createReadStream(file, { end: 15 });
+        this.readInitVect = fs.createReadStream(file, { end: 15 });
 
-        const onVectorData = ecp(readInitVect, 'data');
-        const onVectorDataClose = ecp(readInitVect, 'close');
+        const onVectorData = ecp(this.readInitVect, 'data');
+        const onVectorDataClose = ecp(this.readInitVect, 'close');
 
-        const initVect = await onVectorData();
+        this.initVect = await onVectorData();
         await onVectorDataClose();
 
-        const cipherKey = getCipherKey(secret);
-        return crypto.createDecipheriv('aes256', cipherKey, initVect);
+        this.cipherKey = getCipherKey(secret);
+        return crypto.createDecipheriv('aes256', this.cipherKey, this.initVect);
     }
 
     /**
@@ -35,7 +35,8 @@ class Decryptor
      * @returns {*}
      */
     getUnZip() {
-        return zlib.createUnzip();
+        this.unzip = zlib.createUnzip();
+        return this.unzip;
     }
 
     /**
@@ -56,7 +57,7 @@ class Decryptor
     ) {
         pipes.map(data => stream = stream.pipe(data))
         await events.onClose();
-        await events.onRename(source, destination);
+        this.renamed = await events.onRename(source, destination);
         return true;
     }
 

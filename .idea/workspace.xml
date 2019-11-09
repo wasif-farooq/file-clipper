@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3c8979a4-74f3-4c7c-9cba-4a3fb8b1d022" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.nyc_output/processinfo/index.json" beforeDir="false" afterPath="$PROJECT_DIR$/.nyc_output/processinfo/index.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/file-clipper.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/file-clipper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Decryptor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Decryptor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Encryptor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Encryptor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tiverse.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tiverse.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/helpers/Readable.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/helpers/Readable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/helpers/Transform.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/helpers/Transform.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/helpers/Writable.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/helpers/Writable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/Encryptor.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/Encryptor.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/index.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit/index.test.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,11 +23,83 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="25" column="60" selection-start-line="25" selection-start-column="60" selection-end-line="25" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Decryptor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="244">
+              <caret line="59" column="23" selection-start-line="59" selection-start-column="23" selection-end-line="59" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Encryptor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="244">
+              <caret line="66" column="20" lean-forward="true" selection-start-line="66" selection-start-column="20" selection-end-line="66" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/helpers/Readable.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/helpers/Transform.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/helpers/Writable.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/unit/Encryptor.test.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="164">
+              <caret line="132" column="50" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.eslintrc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="4" column="38" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="142">
-              <caret line="60" column="35" selection-start-line="60" selection-start-column="35" selection-end-line="60" selection-end-column="35" />
+            <state relative-caret-position="96">
+              <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -25,9 +108,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>initVect</find>
-      <find>files</find>
-      <find>onClos</find>
       <find>#stat</find>
       <find>read(</find>
       <find>&quot;test&quot;</find>
@@ -55,6 +135,9 @@
       <find>#pipe</find>
       <find>function()</find>
       <find>function ()</find>
+      <find>#getFil</find>
+      <find>readInitVect</find>
+      <find>Transf</find>
     </findStrings>
     <replaceStrings>
       <replace>() =&gt;</replace>
@@ -77,26 +160,26 @@
         <option value="$PROJECT_DIR$/src/tiverse.js" />
         <option value="$PROJECT_DIR$/test/unit/tiverse.test.js" />
         <option value="$PROJECT_DIR$/test/helpers/index.js" />
-        <option value="$PROJECT_DIR$/test/helpers/Transform.js" />
-        <option value="$PROJECT_DIR$/test/helpers/Readable.js" />
         <option value="$PROJECT_DIR$/test/bootstrap.js" />
         <option value="$PROJECT_DIR$/src/decrypt.js" />
         <option value="$PROJECT_DIR$/src/encrypt.js" />
         <option value="$PROJECT_DIR$/test/unit/encrypt.test.js" />
         <option value="$PROJECT_DIR$/test/unit/decrypt.test.js" />
-        <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/Tiverse.js" />
         <option value="$PROJECT_DIR$/src/transform.js" />
         <option value="$PROJECT_DIR$/test/unit/Transform.test.js" />
         <option value="$PROJECT_DIR$/test/unit/key.test.js" />
-        <option value="$PROJECT_DIR$/test/unit/Encryptor.test.js" />
-        <option value="$PROJECT_DIR$/src/Encryptor.js" />
-        <option value="$PROJECT_DIR$/src/Decryptor.js" />
         <option value="$PROJECT_DIR$/test/unit/Tiverse.test.js" />
-        <option value="$PROJECT_DIR$/test/unit/index.test.js" />
         <option value="$PROJECT_DIR$/test/unit/Decryptor.test.js" />
-        <option value="$PROJECT_DIR$/test/helpers/Writable.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/Tiverse.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="$PROJECT_DIR$/test/unit/index.test.js" />
+        <option value="$PROJECT_DIR$/src/Decryptor.js" />
+        <option value="$PROJECT_DIR$/src/Encryptor.js" />
+        <option value="$PROJECT_DIR$/test/helpers/Readable.js" />
+        <option value="$PROJECT_DIR$/test/helpers/Transform.js" />
+        <option value="$PROJECT_DIR$/test/helpers/Writable.js" />
+        <option value="$PROJECT_DIR$/test/unit/Encryptor.test.js" />
       </list>
     </option>
   </component>
@@ -109,29 +192,11 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="file-cliper" type="b2602c69:ProjectViewProjectNode" />
-              <item name="file-cliper" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="file-cliper" type="b2602c69:ProjectViewProjectNode" />
-              <item name="file-cliper" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../atif-test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../testcode" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -172,11 +237,12 @@
       <workItem from="1573123611584" duration="2784000" />
       <workItem from="1573132295379" duration="2409000" />
       <workItem from="1573183461505" duration="5071000" />
+      <workItem from="1573216737671" duration="3437000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95756000" />
+    <option name="totallyTimeSpent" value="99229000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-37" width="1368" height="805" extended-state="6" />
@@ -277,13 +343,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/helpers/Readable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="5" column="5" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/tiverse.test.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/eslint/lib/rules/no-floating-decimal.js">
       <provider selected="true" editor-type-id="text-editor" />
@@ -299,31 +358,10 @@
     <entry file="file://$PROJECT_DIR$/src/encrypt.js" />
     <entry file="file://$PROJECT_DIR$/test/unit/encrypt.test.js" />
     <entry file="file://$PROJECT_DIR$/test/unit/decrypt.test.js" />
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="67" column="7" selection-start-line="65" selection-start-column="6" selection-end-line="67" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/helpers/Transform.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="3" column="25" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/transform.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-386">
           <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Tiverse.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="75" column="6" selection-start-line="75" selection-start-column="6" selection-end-line="75" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -337,31 +375,10 @@
     <entry file="file://$PROJECT_DIR$/test/unit/command.test.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/helpers/Writable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/unit/Decryptor.test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
           <caret line="78" column="14" selection-start-line="78" selection-start-column="14" selection-end-line="78" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/Encryptor.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="74" column="33" selection-start-line="74" selection-start-column="33" selection-end-line="74" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/unit/index.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-932">
-          <caret line="97" column="13" selection-start-line="97" selection-start-column="13" selection-end-line="97" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -379,24 +396,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Encryptor.js">
+    <entry file="file://$PROJECT_DIR$/.eslintrc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="83" column="22" selection-start-line="83" selection-start-column="22" selection-end-line="83" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Decryptor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="77" column="22" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
+        <state relative-caret-position="168">
+          <caret line="4" column="38" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="60" column="35" selection-start-line="60" selection-start-column="35" selection-end-line="60" selection-end-column="35" />
+        <state relative-caret-position="96">
+          <caret line="5" column="14" lean-forward="true" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Tiverse.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="63" column="18" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/index.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="25" column="60" selection-start-line="25" selection-start-column="60" selection-end-line="25" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Decryptor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="59" column="23" selection-start-line="59" selection-start-column="23" selection-end-line="59" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Encryptor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="66" column="20" lean-forward="true" selection-start-line="66" selection-start-column="20" selection-end-line="66" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/helpers/Readable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/helpers/Transform.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/helpers/Writable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/unit/Encryptor.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="132" column="50" selection-start-line="132" selection-start-column="50" selection-end-line="132" selection-end-column="50" />
         </state>
       </provider>
     </entry>

@@ -23,16 +23,7 @@ class Clipper {
      *
      */
     async getFiles() {
-        return await tiverse.getFiles(await this.resolve(this.path))
-    }
-
-    /**
-     *
-     * @param {*} path
-     * @return Promise
-     */
-    async resolve(file) {
-        return path.resolve(file);
+        return await tiverse.getFiles(path.resolve(this.path))
     }
 
     /**
@@ -43,7 +34,7 @@ class Clipper {
      * @return {Clipper}
      */
     static start({ mode, path, secret }) {
-        let instance = new this;
+        const instance = new this;
         instance.path = path;
         instance.secret = secret;
 
@@ -75,8 +66,8 @@ class Clipper {
 
         this.getFiles()
             .then((files) => Promise.all(files.map((file) => this.action({ file, secret }))))
-            .then((data) => true)
-            .catch((data) => false);
+            .then(() => true)
+            .catch(() => false);
     }
 }
 

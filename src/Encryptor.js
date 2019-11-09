@@ -31,7 +31,8 @@ class Encrypter
      * @returns {*}
      */
     getZip() {
-        return zlib.createGzip()
+        this.zip = zlib.createGzip();
+        return this.zip;
     }
 
     /**
@@ -40,7 +41,8 @@ class Encrypter
      * @returns {FileClipperTransform}
      */
     getTransformation(initVect) {
-        return new Transform(initVect)
+        this.transform = new Transform(initVect)
+        return this.transform;
     }
 
     /**
@@ -61,7 +63,7 @@ class Encrypter
     ) {
         pipes.map(data => stream = stream.pipe(data))
         await events.onClose();
-        await events.onRename(source, destination);
+        this.renamed = await events.onRename(source, destination);
         return true;
     }
 

@@ -125,14 +125,12 @@ describe('#Encryptor', () => {
         let readable;
         let writable;
         let transform;
-        let Transform;
 
         beforeEach(() => {
 
             readable = new ObjectReadableMock();
             writable = new ObjectWritableMock();
             transform = new ObjectTransformMock();
-            Transform = ObjectTransformMock;
 
             stub(fs, 'rename').resolves(true);
 

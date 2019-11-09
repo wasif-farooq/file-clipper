@@ -61,7 +61,7 @@ class Tiverse {
      */
     async reduce(data) {
         let list = [];
-        for (let i in data) {
+        for (const i in data) {
             if (Array.isArray(data[i])) {
                 list = list.concat(await this.reduce(data[i]));
             } else {
